@@ -116,6 +116,7 @@ public class UserInput : MonoBehaviour {
     }
     private void MoveToCursor()
     {
+        
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
@@ -125,9 +126,12 @@ public class UserInput : MonoBehaviour {
             if (hited.name == "Ground")
             {
                 if (Selected)
-                {
+                {                
                     Actor aktor = Selected.GetComponent<Actor>();
-                    aktor.MoveObect(hit.point);
+                    if(aktor)
+                    {
+                        aktor.MoveObject(hit.point);
+                    }
                 }
             }
         }

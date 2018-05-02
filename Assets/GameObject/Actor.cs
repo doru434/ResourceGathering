@@ -15,7 +15,11 @@ public class Actor : MonoBehaviour {
     protected virtual void Update () {
 		
 	}
-    public virtual void MoveObect(Vector3 Destination)
+    public virtual void MoveObject(Vector3 Destination)
+    {
+
+    }
+    protected virtual void RotateObject()
     {
 
     }
