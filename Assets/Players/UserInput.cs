@@ -16,8 +16,6 @@ public class UserInput : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
-        
-    
     }
 	
 	// Update is called once per frame
@@ -26,7 +24,8 @@ public class UserInput : MonoBehaviour {
         RotateCamera();
         GetMouseClick();
     }
-
+    public bool getSomethingSelected() { return SomethingSelected; }
+    public GameObject getSelected() { return Selected; }
     // moves camera in x-z axis
     private void MoveCamera()
     {
@@ -168,10 +167,17 @@ public class UserInput : MonoBehaviour {
                 {
                     Actor actor = Selected.GetComponent<Actor>();
                     actor.isSelected = true;
+
                     Debug.LogFormat(Selected.name);
+                   
                     SomethingSelected = true;
+                    CallHudUpdate(Selected.name);
                 }
             }
         }
+    }
+    private void CallHudUpdate(string name)
+    {
+        player.UpdateHUD(name);
     }
 }

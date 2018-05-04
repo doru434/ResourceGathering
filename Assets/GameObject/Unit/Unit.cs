@@ -20,7 +20,7 @@ public class Unit : Actor {
     protected override void Update () {
         base.Update();
         UpdatePosition();
-        Debug.Log(this.transform.name + this.isSelected);
+       // Debug.Log(this.transform.name + this.isSelected);
     }
     private void UpdatePosition()
     {
