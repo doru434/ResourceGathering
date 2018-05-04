@@ -16,6 +16,7 @@ public class UserInput : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
+        
     
     }
 	
