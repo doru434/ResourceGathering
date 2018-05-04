@@ -168,7 +168,7 @@ public class UserInput : MonoBehaviour {
                     Actor actor = Selected.GetComponent<Actor>();
                     actor.isSelected = true;
 
-                    Debug.LogFormat(Selected.name);
+
                    
                     SomethingSelected = true;
                     CallHudUpdate(Selected.name);

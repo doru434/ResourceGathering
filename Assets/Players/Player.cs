@@ -14,8 +14,7 @@ public class Player : MonoBehaviour
         hUDsc = child.GetComponent<HUDsc>();
         input = GetComponent<UserInput>();
         hUDsc.SetChilds();
-        Text texto = hUDsc.GetHUDTextObjectByName("Object_name");
-        texto.text = "andrzej";
+
     }
 	
 	// Update is called once per frame
@@ -26,7 +25,6 @@ public class Player : MonoBehaviour
     {
         Text texto = hUDsc.GetHUDTextObjectByName("Object_name");
         texto.text = name;
-        Debug.Log(name);
     }
     
 }
