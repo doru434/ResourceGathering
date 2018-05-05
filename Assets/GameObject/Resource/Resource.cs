@@ -2,19 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour {
+public class Resource : Actor
+{
     private int ResourceAmount;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    protected override void Start () {
         ResourceAmount = 1000;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    protected override void Update () {
 		
 	}
-    public void ChangeResource(int number)
+    private void ChangeResource(int number)
     {
         ResourceAmount -= ResourceAmount;
+    }
+    public int GetResource()
+    {
+        return ResourceAmount;
+    }
+    private void isUnit()
+    {
+        Collider collider = transform.GetComponent<Collider>();
+       
     }
 }

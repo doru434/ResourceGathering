@@ -122,18 +122,27 @@ public class UserInput : MonoBehaviour {
         if (Physics.Raycast(ray, out hit))
         { 
             GameObject hited = hit.transform.gameObject;
-            
-            if (hited.name == "Ground")
+
+            //moving to free ground location
+            if (Selected)
             {
-                if (Selected)
-                {                
-                    Actor aktor = Selected.GetComponent<Actor>();
-                    if(aktor)
+                if (Selected.GetComponent<Unit>())
+                {
+                    Unit unit = Selected.GetComponent<Unit>();
+                    if (unit)
                     {
-                        aktor.MoveObject(hit.point);
+                        if (hited.name == "Ground")
+                        {
+                            unit.MoveManager(hit.point, false, null);
+                        }
+                        if(hited.transform.GetComponent<Resource>())
+                        {
+                            unit.MoveManager(hit.point, true, hited.transform.GetComponent<Resource>());
+                        }
                     }
                 }
             }
+       
         }
     }
     // Return GameObject if ray hit a target in camera-cursor line

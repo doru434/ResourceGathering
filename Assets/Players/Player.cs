@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
         hUDsc = child.GetComponent<HUDsc>();
         input = GetComponent<UserInput>();
         hUDsc.SetChilds();
-
     }
 	
 	// Update is called once per frame

@@ -8,7 +8,9 @@ public class Unit : Actor {
     private float rotateSpeed = 5;
     private Vector3 desiredPosition;
     private bool move;
+    private bool moveToResource;
     private bool rotate;
+    
     protected override void Start () {
         base.Start();
         isSelected = false;
@@ -32,6 +34,7 @@ public class Unit : Actor {
         {
             RotateObject();
         }
+
         if(desiredPosition == this.transform.position)
         {
             move = false;
@@ -39,7 +42,20 @@ public class Unit : Actor {
         }
 
     }
-    public override void MoveObject(Vector3 destination)
+    public void MoveManager(Vector3 destination, bool isResource, Resource resource)
+    {
+        if (isResource)
+        {
+            moveToResource = true;
+            MoveObject(destination);
+        }
+        else if (!isResource)
+        {
+            MoveObject(destination);
+        }
+
+    }
+    protected override void MoveObject(Vector3 destination)
     {
         base.MoveObject(destination);
         desiredPosition.x = destination.x;
