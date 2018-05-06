@@ -7,13 +7,12 @@ public class Player : MonoBehaviour
 {
     public string PlayerName;
     private HUDsc hUDsc;
-    private UserInput input;
+
 	// Use this for initialization
 	void Start () {
         Transform child = transform.GetChild(0);
         hUDsc = child.GetComponent<HUDsc>();
-        input = GetComponent<UserInput>();
-        hUDsc.SetChilds();
+        hUDsc.SetChilds(); 
     }
 	
 	// Update is called once per frame

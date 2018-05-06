@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Actor : MonoBehaviour {
-    public string name;
+
     protected int hp;
     public bool isSelected;
     // Use this for initialization
