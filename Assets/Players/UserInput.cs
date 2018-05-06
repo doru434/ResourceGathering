@@ -187,6 +187,17 @@ public class UserInput : MonoBehaviour {
     }
     private void CallHudUpdate(string name)
     {
-        player.UpdateHUD(name);
+        int resourceAmount = 0;
+       if(Selected.GetComponent<Unit>())
+       {
+            Unit unit = Selected.GetComponent<Unit>();
+            resourceAmount = unit.getResource();
+        }
+        if (Selected.GetComponent<Resource>())
+        {
+            Resource resource = Selected.GetComponent<Resource>();
+            resourceAmount = resource.getResource();
+        }
+        player.UpdateHUD(name, resourceAmount);
     }
 }

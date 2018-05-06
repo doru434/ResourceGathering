@@ -19,10 +19,12 @@ public class Player : MonoBehaviour
 	void Update () {
        
     }
-    public void UpdateHUD(string name)
+    public void UpdateHUD(string name, int resourceAmount)
     {
-        Text texto = hUDsc.GetHUDTextObjectByName("Object_name");
-        texto.text = name;
+        Text Object_name = hUDsc.GetHUDTextObjectByName("Object_name");
+        Object_name.text = name;
+        Text Object_Resources = hUDsc.GetHUDTextObjectByName("Object_Resources");
+        Object_Resources.text = resourceAmount.ToString();
     }
     
 }

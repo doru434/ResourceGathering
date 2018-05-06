@@ -63,6 +63,10 @@ public class Unit : Actor {
     {
         return gatheringAmount;
     }
+    public int getResource()
+    {
+        return resource;
+    }
     public void setResourceCount()
     {
         resource += gatheringAmount;

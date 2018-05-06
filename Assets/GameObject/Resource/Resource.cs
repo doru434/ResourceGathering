@@ -58,7 +58,10 @@ public class Resource : Actor
         }
 
     }
-
+    public int getResource()
+    {
+        return ResourceAmount;
+    }
     private void ChangeResource(int number)
     {
         ResourceAmount -= ResourceAmount;
