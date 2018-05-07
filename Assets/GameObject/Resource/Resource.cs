@@ -8,12 +8,13 @@ public class Resource : Actor
 
     // Use this for initialization
     protected override void Start () {
+        base.Start();
         ResourceAmount = 1000;
     }
 
     // Update is called once per frame
     protected override void Update () {
-		
+        base.Update();
 	}
     void OnTriggerEnter(Collider other)
     {
@@ -31,21 +32,26 @@ public class Resource : Actor
             if (eager.getWantToGather())
             {
 
-                    int gatherAmount = eager.getGatheringAmount();
-                    if (eager.SpaceForResource())
+                int gatherAmount = eager.getGatheringAmount();
+                if (eager.SpaceForResource())
+                {
+                    eager.StopMoving();
+                    if (ResourceAmount - gatherAmount >= 0)
                     {
-                        if (ResourceAmount - gatherAmount >= 0)
+                        eager.lastGather += Time.deltaTime;
+                        if (eager.lastGather >= eager.getGatheringSpeed())
                         {
-                            eager.lastGather += Time.deltaTime;
-                            if (eager.lastGather >= eager.getGatheringSpeed())
-                            {
-                                ResourceAmount -= gatherAmount;
-                                eager.setResourceCount();
-                            }
+                            ResourceAmount -= gatherAmount;
+                            eager.setResourceCount();
                         }
-                        //else find next gathering point
                     }
-                    //else go back to base
+                    //else find next gathering point
+                }
+                if(eager.isFull())
+                {
+                    eager.rememberResourcePosition(this.transform.position);
+                    eager.returnResources();
+                }
                 
             }
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : Actor {
 	// Use this for initialization
-    private float moveSpeed = 1;
+    private float moveSpeed = 2;
     private float rotateSpeed = 5;
 
     private float gatheringSpeed;
@@ -18,16 +18,22 @@ public class Unit : Actor {
     private bool move;
     private bool rotate;
     private bool wantToGather;
+    private bool goingBackToBase;
 
+    private Vector3 basePosition;
+    private Vector3 resourcePosition;
 
     protected override void Start () {
         base.Start();
+        basePosition = new Vector3(3.5f, 0.0f, 18.0f);
+
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
         gatheringAmount = 2;
         resource = 0;
-        maxResource = 20;
+        maxResource = 6;
         wantToGather = false;
+        goingBackToBase = false;
         isSelected = false;
         move = false;
         rotate = false;
@@ -76,11 +82,21 @@ public class Unit : Actor {
     {
         return wantToGather;
     }
+    public bool getGoingBackToBase()
+    {
+        return goingBackToBase;
+    }
     public void setResourceCount()
     {
         resource += gatheringAmount;
         lastGather = 0;
-        Debug.Log(this.transform.name + this.resource);
+    }
+    public void TransferResources()
+    {
+        resource = 0;
+        goingBackToBase = false;
+        wantToGather = true;
+        MoveObject(resourcePosition);
     }
     public bool SpaceForResource()
     {
@@ -92,6 +108,13 @@ public class Unit : Actor {
         {
             return false;
         }
+    }
+    public bool isFull()
+    {
+        if (resource == maxResource)
+            return true;
+        else
+            return false;
     }
     public void MoveManager(Vector3 destination, bool isResource, Resource resource)
     {
@@ -136,4 +159,15 @@ public class Unit : Actor {
         // Move our position a step closer to the target.
         transform.rotation = Quaternion.LookRotation(newDir);
     }
+    public void returnResources()
+    {
+        wantToGather = false;
+        goingBackToBase = true;
+        MoveObject(basePosition);
+    }
+    public void rememberResourcePosition(Vector3 resourceLocation)
+    {
+        resourcePosition = resourceLocation;
+    }
+
 }
