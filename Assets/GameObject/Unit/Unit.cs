@@ -7,17 +7,17 @@ public class Unit : Actor {
     private float moveSpeed = 1;
     private float rotateSpeed = 5;
 
-    public float lastGather;
     private float gatheringSpeed;
     private int gatheringAmount;
     private int resource;
 
+    public float lastGather;
+    public int maxResource;
 
-    public int maxResource = 100;
     private Vector3 desiredPosition;
     private bool move;
     private bool rotate;
-
+    private bool wantToGather;
 
 
     protected override void Start () {
@@ -26,6 +26,8 @@ public class Unit : Actor {
         gatheringSpeed = 2.0f;
         gatheringAmount = 2;
         resource = 0;
+        maxResource = 20;
+        wantToGather = false;
         isSelected = false;
         move = false;
         rotate = false;
@@ -35,7 +37,10 @@ public class Unit : Actor {
     protected override void Update () {
         base.Update();
         UpdatePosition();
-       
+        if(resource == maxResource)
+        {
+            wantToGather = false;
+        }
     }
     private void UpdatePosition()
     {
@@ -67,6 +72,10 @@ public class Unit : Actor {
     {
         return resource;
     }
+    public bool getWantToGather()
+    {
+        return wantToGather;
+    }
     public void setResourceCount()
     {
         resource += gatheringAmount;
@@ -87,14 +96,15 @@ public class Unit : Actor {
     public void MoveManager(Vector3 destination, bool isResource, Resource resource)
     {
         if (isResource)
-        {
+        {          
             MoveObject(destination);
-            resource.Gather(this);
+            wantToGather = true;
    
         }
         else if (!isResource)
         {
             MoveObject(destination);
+            wantToGather = false;
         }
 
     }

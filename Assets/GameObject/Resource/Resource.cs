@@ -5,12 +5,10 @@ using UnityEngine;
 public class Resource : Actor
 {
     private int ResourceAmount;
-    private Unit tempSlot;
-    private Unit gatheringUnit;
+
     // Use this for initialization
     protected override void Start () {
         ResourceAmount = 1000;
-
     }
 
     // Update is called once per frame
@@ -19,11 +17,7 @@ public class Resource : Actor
 	}
     void OnTriggerEnter(Collider other)
     {
-      
-        if (other.GetComponent<Unit>())
-        {
-            tempSlot = other.GetComponent<Unit>();
-        }
+
     }
     void OnTriggerExit(Collider other)
     {
@@ -33,27 +27,26 @@ public class Resource : Actor
     {
        if( other.GetComponent<Unit>())
         {
-            Unit temp = other.GetComponent<Unit>();
-            if (gatheringUnit)
+            Unit eager = other.GetComponent<Unit>();
+            if (eager.getWantToGather())
             {
-                if (temp.name == gatheringUnit.name)
-                {
-                    int gatherAmount = gatheringUnit.getGatheringAmount();
-                    if (temp.SpaceForResource())
+
+                    int gatherAmount = eager.getGatheringAmount();
+                    if (eager.SpaceForResource())
                     {
                         if (ResourceAmount - gatherAmount >= 0)
                         {
-                            temp.lastGather += Time.deltaTime;
-                            if (temp.lastGather >= temp.getGatheringSpeed())
+                            eager.lastGather += Time.deltaTime;
+                            if (eager.lastGather >= eager.getGatheringSpeed())
                             {
                                 ResourceAmount -= gatherAmount;
-                                gatheringUnit.setResourceCount();
+                                eager.setResourceCount();
                             }
                         }
                         //else find next gathering point
                     }
                     //else go back to base
-                }
+                
             }
         }
 
@@ -71,15 +64,5 @@ public class Resource : Actor
         return ResourceAmount;
     }
 
-    public void Gather(Unit unit)
-    {
-        if (tempSlot)
-        {
-            if (unit.name == tempSlot.name)
-            {
-                unit.StopMoving();
-                gatheringUnit = tempSlot;
-            }
-        }
-    }
+
 }

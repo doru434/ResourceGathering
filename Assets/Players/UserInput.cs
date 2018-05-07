@@ -23,6 +23,10 @@ public class UserInput : MonoBehaviour {
         MoveCamera();
         RotateCamera();
         GetMouseClick();
+        if(Selected)
+        {
+            HudUpdate(Selected.name);
+        }
     }
     public bool getSomethingSelected() { return SomethingSelected; }
     public GameObject getSelected() { return Selected; }
@@ -179,15 +183,14 @@ public class UserInput : MonoBehaviour {
 
 
                    
-                    SomethingSelected = true;
-                    CallHudUpdate(Selected.name);
+                    SomethingSelected = true;                  
                 }
             }
         }
     }
-    private void CallHudUpdate(string name)
+    private void HudUpdate(string name)
     {
-        int resourceAmount = 0;
+       int resourceAmount = 0;
        if(Selected.GetComponent<Unit>())
        {
             Unit unit = Selected.GetComponent<Unit>();
