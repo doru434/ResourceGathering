@@ -48,6 +48,17 @@ public class Unit : Actor {
             wantToGather = false;
         }
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (goingBackToBase == true || wantToGather == true)
+        {
+            if (collision.gameObject.tag == "Gatherer")
+            {
+                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<Collider>());
+            }
+        }
+    }
+
     private void UpdatePosition()
     {
         if(move == true)
