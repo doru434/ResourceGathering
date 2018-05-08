@@ -9,12 +9,17 @@ public class Resource : Actor
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 1000;
+        ResourceAmount = 7;
     }
 
     // Update is called once per frame
     protected override void Update () {
         base.Update();
+        if(Depleted())
+        {
+            DestroySource();
+        }
+        
 	}
     void OnTriggerEnter(Collider other)
     {
@@ -42,7 +47,16 @@ public class Resource : Actor
                         if (eager.lastGather >= eager.getGatheringSpeed())
                         {
                             ResourceAmount -= gatherAmount;
-                            eager.setResourceCount();
+                            eager.setResourceCount(false, ResourceAmount);
+                        }
+                    }
+                    if(ResourceAmount != 0 && ResourceAmount < gatherAmount)
+                    {
+                        eager.lastGather += Time.deltaTime;
+                        if (eager.lastGather >= eager.getGatheringSpeed())
+                        {
+                            eager.setResourceCount(true , ResourceAmount);
+                            ResourceAmount = 0;
                         }
                     }
                     //else find next gathering point
@@ -65,10 +79,19 @@ public class Resource : Actor
     {
         ResourceAmount -= ResourceAmount;
     }
-    public int GetResource()
+    private bool Depleted()
     {
-        return ResourceAmount;
+        if(ResourceAmount==0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-
-
+    private void DestroySource()
+    {
+        //Destroy(this);
+    }
 }

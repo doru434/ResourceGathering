@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : Actor {
-	// Use this for initialization
+    // Use this for initialization
+    private GameObject mainBase;
+
     private float moveSpeed = 2;
     private float rotateSpeed = 5;
 
@@ -25,7 +27,9 @@ public class Unit : Actor {
 
     protected override void Start () {
         base.Start();
-        basePosition = new Vector3(3.5f, 0.0f, 18.0f);
+        
+        mainBase = GameObject.FindGameObjectWithTag("Base");
+        basePosition = mainBase.transform.position;
 
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
@@ -54,7 +58,7 @@ public class Unit : Actor {
         {
             if (collision.gameObject.tag == "Gatherer")
             {
-                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<Collider>());
+                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<SphereCollider>());
             }
         }
     }
@@ -97,10 +101,18 @@ public class Unit : Actor {
     {
         return goingBackToBase;
     }
-    public void setResourceCount()
+    public void setResourceCount(bool lastPart, int SourceResource)
     {
-        resource += gatheringAmount;
-        lastGather = 0;
+        if (lastPart == false)
+        {
+            resource += gatheringAmount;
+            lastGather = 0;
+        }
+        if(lastPart == true)
+        {
+            resource += SourceResource;
+            lastGather = 0;
+        }
     }
     public void TransferResources()
     {

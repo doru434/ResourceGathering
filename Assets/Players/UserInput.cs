@@ -168,6 +168,7 @@ public class UserInput : MonoBehaviour {
             Actor actor = Selected.GetComponent<Actor>();
             actor.isSelected = false;
             SomethingSelected = false;
+            //we
         }
     }
     private void SelectActor()
