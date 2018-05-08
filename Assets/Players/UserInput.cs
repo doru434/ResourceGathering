@@ -196,17 +196,19 @@ public class UserInput : MonoBehaviour {
        {
             Unit unit = Selected.GetComponent<Unit>();
             resourceAmount = unit.getResource();
+            player.UpdateHUD(name, resourceAmount);
         }
         if (Selected.GetComponent<Resource>())
         {
             Resource resource = Selected.GetComponent<Resource>();
             resourceAmount = resource.getResource();
+            player.UpdateHUD(name, resourceAmount);
         }
         if (Selected.GetComponent<Building>())
         {
             Building building = Selected.GetComponent<Building>();
             resourceAmount = building.getResource();
+            player.UpdateHUD(name, resourceAmount);
         }
-        player.UpdateHUD(name, resourceAmount);
     }
 }

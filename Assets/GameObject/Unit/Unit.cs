@@ -139,6 +139,10 @@ public class Unit : Actor {
         else
             return false;
     }
+    public void changeGatheringSource(Vector3 dest)
+    {
+        MoveObject(dest);
+    }
     public void MoveManager(Vector3 destination, bool isResource, Resource resource)
     {
         if (isResource)

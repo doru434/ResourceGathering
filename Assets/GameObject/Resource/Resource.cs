@@ -5,11 +5,13 @@ using UnityEngine;
 public class Resource : Actor
 {
     private int ResourceAmount;
-
+    private Player myPlayer;
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 7;
+        ResourceAmount = 5;
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        myPlayer = Player.transform.GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -23,11 +25,11 @@ public class Resource : Actor
 	}
     void OnTriggerEnter(Collider other)
     {
-
+        Debug.Log(other.name);
     }
     void OnTriggerExit(Collider other)
     {
-
+        Debug.Log(other.name);
     }
     void OnTriggerStay(Collider other)
     {
@@ -40,9 +42,9 @@ public class Resource : Actor
                 int gatherAmount = eager.getGatheringAmount();
                 if (eager.SpaceForResource())
                 {
-                    eager.StopMoving();
                     if (ResourceAmount - gatherAmount >= 0)
                     {
+                        eager.StopMoving();
                         eager.lastGather += Time.deltaTime;
                         if (eager.lastGather >= eager.getGatheringSpeed())
                         {
@@ -52,6 +54,7 @@ public class Resource : Actor
                     }
                     if(ResourceAmount != 0 && ResourceAmount < gatherAmount)
                     {
+                        eager.StopMoving();
                         eager.lastGather += Time.deltaTime;
                         if (eager.lastGather >= eager.getGatheringSpeed())
                         {
@@ -59,7 +62,18 @@ public class Resource : Actor
                             ResourceAmount = 0;
                         }
                     }
-                    //else find next gathering point
+                    if(ResourceAmount == 0)
+                    {
+                        foreach(Resource i in myPlayer.resourcesList)
+                        {
+                            if(i.getResource()!=0)
+                            {
+                                eager.changeGatheringSource(i.transform.position);
+                                break;
+                            }
+                        }
+                    }
+                   
                 }
                 if(eager.isFull())
                 {
