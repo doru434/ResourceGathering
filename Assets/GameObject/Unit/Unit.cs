@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : Actor {
     // Use this for initialization
     private GameObject mainBase;
+    private Player myPlayer;
 
     private float moveSpeed = 4;
     private float rotateSpeed = 5;
@@ -29,9 +30,10 @@ public class Unit : Actor {
         base.Start();
         
         mainBase = GameObject.FindGameObjectWithTag("Base");
-        Debug.Log(mainBase);
         basePosition = mainBase.transform.position;
-        Debug.Log(basePosition);
+
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        myPlayer = Player.transform.GetComponent<Player>();
 
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
@@ -83,27 +85,27 @@ public class Unit : Actor {
         }
 
     }
-    public float getGatheringSpeed()
+    public float GetGatheringSpeed()
     {
         return gatheringSpeed;
     }
-    public int getGatheringAmount()
+    public int GetGatheringAmount()
     {
         return gatheringAmount;
     }
-    public int getResource()
+    public int GetResource()
     {
         return resource;
     }
-    public bool getWantToGather()
+    public bool GetWantToGather()
     {
         return wantToGather;
     }
-    public bool getGoingBackToBase()
+    public bool GetGoingBackToBase()
     {
         return goingBackToBase;
     }
-    public void setResourceCount(bool lastPart, int SourceResource)
+    public void SetResourceCount(bool lastPart, int SourceResource)
     {
         if (lastPart == false)
         {
@@ -134,7 +136,7 @@ public class Unit : Actor {
             return false;
         }
     }
-    public bool isFull()
+    public bool IsFull()
     {
         if (resource == maxResource)
             return true;
@@ -184,15 +186,25 @@ public class Unit : Actor {
         // Move our position a step closer to the target.
         transform.rotation = Quaternion.LookRotation(newDir);
     }
-    public void returnResources()
+    public void ReturnResources()
     {
         wantToGather = false;
         goingBackToBase = true;
         MoveObject(basePosition);
     }
-    public void rememberResourcePosition(Vector3 resourceLocation)
+    public void RememberResourcePosition(Vector3 resourceLocation)
     {
         resourcePosition = resourceLocation;
     }
-
+    public void FindNextSource()
+    {      
+        foreach (Resource i in myPlayer.resourcesList)
+        {
+            if (i.GetResource() != 0)
+            {
+                MoveManager(i.transform.position, true, i);
+                break;
+            }
+        }
+    }
 }

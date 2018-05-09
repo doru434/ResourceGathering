@@ -28,8 +28,8 @@ public class UserInput : MonoBehaviour {
             HudUpdate(Selected.name);
         }
     }
-    public bool getSomethingSelected() { return SomethingSelected; }
-    public GameObject getSelected() { return Selected; }
+    public bool GetSomethingSelected() { return SomethingSelected; }
+    public GameObject GetSelected() { return Selected; }
     // moves camera in x-z axis
     private void MoveCamera()
     {
@@ -165,8 +165,11 @@ public class UserInput : MonoBehaviour {
     {
         if (SomethingSelected == true)
         {
-            Actor actor = Selected.GetComponent<Actor>();
-            actor.isSelected = false;
+            if(Selected.GetComponent<Actor>())
+            {
+                Actor actor = Selected.GetComponent<Actor>();
+                actor.isSelected = false;
+            }
             SomethingSelected = false;
             //we
         }
@@ -195,19 +198,19 @@ public class UserInput : MonoBehaviour {
        if(Selected.GetComponent<Unit>())
        {
             Unit unit = Selected.GetComponent<Unit>();
-            resourceAmount = unit.getResource();
+            resourceAmount = unit.GetResource();
             player.UpdateHUD(name, resourceAmount);
         }
         if (Selected.GetComponent<Resource>())
         {
             Resource resource = Selected.GetComponent<Resource>();
-            resourceAmount = resource.getResource();
+            resourceAmount = resource.GetResource();
             player.UpdateHUD(name, resourceAmount);
         }
         if (Selected.GetComponent<Building>())
         {
             Building building = Selected.GetComponent<Building>();
-            resourceAmount = building.getResource();
+            resourceAmount = building.GetResource();
             player.UpdateHUD(name, resourceAmount);
         }
     }

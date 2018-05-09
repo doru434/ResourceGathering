@@ -6,20 +6,33 @@ public class Building : Actor {
     private int ResourceAmount;
     private int MuleCost;
     public Transform newMule;
+    private Vector3 spawnPoint;
     // Use this for initialization
     protected override void Start () {
         base.Start();
         ResourceAmount = 0;
         MuleCost = 5;
+        spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
     }
 
     // Update is called once per frame
     protected override void Update () {
-        base.Update();
+        base.Update();  
         if(ResourceAmount >= MuleCost)
         {
-            Instantiate(newMule, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z - 5), Quaternion.identity);
-            ResourceAmount -= MuleCost;
+            if (Physics.CheckBox(spawnPoint, new Vector3(1.0f, 1.0f, 0.5f)))
+            {
+                spawnPoint.x += 2.0f;
+            }
+            else
+            {
+                Instantiate(newMule, spawnPoint, Quaternion.identity);
+                Debug.Log(spawnPoint);
+                ResourceAmount -= MuleCost;
+                spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
+            }
+            
+           
         }
 
 	}
@@ -28,14 +41,14 @@ public class Building : Actor {
         if(other.transform.GetComponent<Unit>())
         {
             Unit unit = other.transform.GetComponent<Unit>();
-            if(unit.getGoingBackToBase())
+            if(unit.GetGoingBackToBase())
             { 
-                ResourceAmount+=unit.getResource();
+                ResourceAmount+=unit.GetResource();
                 unit.TransferResources();
             }
         }
     }
-    public int getResource()
+    public int GetResource()
     {
         return ResourceAmount;
     }
