@@ -9,7 +9,7 @@ public class Resource : Actor
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 3;
+        ResourceAmount = 34;
         GameObject Player = GameObject.FindGameObjectWithTag("Player");
         myPlayer = Player.transform.GetComponent<Player>();
     }

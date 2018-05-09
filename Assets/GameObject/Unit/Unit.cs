@@ -29,7 +29,9 @@ public class Unit : Actor {
         base.Start();
         
         mainBase = GameObject.FindGameObjectWithTag("Base");
+        Debug.Log(mainBase);
         basePosition = mainBase.transform.position;
+        Debug.Log(basePosition);
 
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
@@ -58,7 +60,7 @@ public class Unit : Actor {
         {
             if (collision.gameObject.tag == "Gatherer")
             {
-                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<SphereCollider>());
+                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<BoxCollider>());
             }
         }
     }
