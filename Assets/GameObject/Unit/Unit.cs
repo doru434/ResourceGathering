@@ -6,7 +6,7 @@ public class Unit : Actor {
     // Use this for initialization
     private GameObject mainBase;
 
-    private float moveSpeed = 2;
+    private float moveSpeed = 4;
     private float rotateSpeed = 5;
 
     private float gatheringSpeed;
@@ -138,10 +138,6 @@ public class Unit : Actor {
             return true;
         else
             return false;
-    }
-    public void changeGatheringSource(Vector3 dest)
-    {
-        MoveObject(dest);
     }
     public void MoveManager(Vector3 destination, bool isResource, Resource resource)
     {
