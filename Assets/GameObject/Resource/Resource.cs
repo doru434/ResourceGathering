@@ -9,7 +9,7 @@ public class Resource : Actor
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 34;       
+        ResourceAmount = 10;       
     }
 
     // Update is called once per frame
