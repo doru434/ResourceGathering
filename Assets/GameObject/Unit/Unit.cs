@@ -105,6 +105,7 @@ public class Unit : Actor {
     {
         return goingBackToBase;
     }
+    // Updates resource count of a unit when gathering
     public void SetResourceCount(bool lastPart, int SourceResource)
     {
         if (lastPart == false)
@@ -118,6 +119,7 @@ public class Unit : Actor {
             lastGather = 0;
         }
     }
+    // Gives resource to base
     public void TransferResources()
     {
         resource = 0;
@@ -125,6 +127,7 @@ public class Unit : Actor {
         wantToGather = true;
         MoveObject(resourcePosition);
     }
+    // Checking if there is a space for resources 
     public bool SpaceForResource()
     {
         if (resource + gatheringAmount <= maxResource)
@@ -136,6 +139,7 @@ public class Unit : Actor {
             return false;
         }
     }
+    // checking if there is a space for more resources
     public bool IsFull()
     {
         if (resource == maxResource)
@@ -186,6 +190,7 @@ public class Unit : Actor {
         // Move our position a step closer to the target.
         transform.rotation = Quaternion.LookRotation(newDir);
     }
+    // Sending this unit to base
     public void ReturnResources()
     {
         wantToGather = false;
