@@ -1,1 +1,1 @@
-# rts
+# Unity gathering system for RTS game.
