@@ -105,18 +105,38 @@ public class Unit : Actor {
     {
         return goingBackToBase;
     }
-    public void SetResourceCount(bool lastPart, int SourceResource)
+    public void SetResourceCount(int lastPart, int SourceResource)
     {
-        if (lastPart == false)
+        if (lastPart == 0)
         {
             resource += gatheringAmount;
             lastGather = 0;
         }
-        if(lastPart == true)
+        if(lastPart == 1)
         {
             resource += SourceResource;
             lastGather = 0;
         }
+        if (lastPart == 2)
+        {
+            resource += ResourceSpace();
+            lastGather = 0;
+        }
+    }
+    public bool EnoughtSpace()
+    {
+        if(resource+gatheringAmount <=  maxResource)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public int ResourceSpace()
+    {
+        return maxResource - resource;
     }
     public void TransferResources()
     {

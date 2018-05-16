@@ -11,7 +11,7 @@ public class Building : Actor {
     protected override void Start () {
         base.Start();
         ResourceAmount = 0;
-        MuleCost = 5;
+        MuleCost = 100;
         spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
     }
 

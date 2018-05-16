@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Resource : Actor
 {
+    enum ResourceLeft { Pass=0, Less, ToMany}
     private int ResourceAmount;
    
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 34;       
+        ResourceAmount = 5;       
     }
 
     // Update is called once per frame
@@ -31,14 +32,14 @@ public class Resource : Actor
 
                 int gatherAmount = eager.GetGatheringAmount();
 
-                if (ResourceAmount - gatherAmount >= 0)
+                if (ResourceAmount - gatherAmount >= 0 && eager.EnoughtSpace())
                 {
                     eager.StopMoving();
                     eager.lastGather += Time.deltaTime;
                     if (eager.lastGather >= eager.GetGatheringSpeed())
                     {
                         ResourceAmount -= gatherAmount;
-                        eager.SetResourceCount(false, ResourceAmount);
+                        eager.SetResourceCount((int)ResourceLeft.Pass, ResourceAmount);
                     }
                 }
                 else if (ResourceAmount != 0 && ResourceAmount < gatherAmount)
@@ -47,11 +48,23 @@ public class Resource : Actor
                     eager.lastGather += Time.deltaTime;
                     if (eager.lastGather >= eager.GetGatheringSpeed())
                     {
-                        eager.SetResourceCount(true, ResourceAmount);
+                        eager.SetResourceCount((int)ResourceLeft.Less, ResourceAmount);
                         ResourceAmount = 0;
                     }
                 }
-                   
+                else if (ResourceAmount - gatherAmount >= 0 && !eager.EnoughtSpace())
+                {
+                    eager.StopMoving();
+                    eager.lastGather += Time.deltaTime;
+                    if (eager.lastGather >= eager.GetGatheringSpeed())
+                    {
+                        int spaceLeft = eager.ResourceSpace();
+                        ResourceAmount -= spaceLeft;
+                        eager.SetResourceCount((int)ResourceLeft.ToMany, ResourceAmount);
+                    }
+                }
+
+
             }
             if(eager.IsFull())
             {
@@ -86,6 +99,9 @@ public class Resource : Actor
     }
     private void DestroySource()
     {
+        UserInput input = FindObjectOfType<UserInput>();
+        input.DeselectPreviousActor();
         Destroy(gameObject);
+       
     }
 }

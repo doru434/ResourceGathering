@@ -13,6 +13,7 @@ public class UserInput : MonoBehaviour {
     private static int ROTATE_SPEED = 100;
 
 
+
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
@@ -161,7 +162,7 @@ public class UserInput : MonoBehaviour {
         return null;
     }
     // if actor was selected deselect him
-    private void DeselectPreviousActor()
+    public void DeselectPreviousActor()
     {
         if (SomethingSelected == true)
         {
