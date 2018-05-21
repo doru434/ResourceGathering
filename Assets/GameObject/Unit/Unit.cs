@@ -175,6 +175,7 @@ public class Unit : Actor {
         {
             MoveObject(destination);
             wantToGather = false;
+            goingBackToBase = false;
         }
 
     }
