@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UserInput : MonoBehaviour {
+
     private Player player = null;
     private GameObject Selected=null;
     private bool SomethingSelected = false;
@@ -11,7 +12,6 @@ public class UserInput : MonoBehaviour {
     private static int MIN_ZOOM = 5;
     private static int MAX_ZOOM = 20;
     private static int ROTATE_SPEED = 100;
-
 
 
     // Use this for initialization
@@ -128,7 +128,6 @@ public class UserInput : MonoBehaviour {
         { 
             GameObject hited = hit.transform.gameObject;
 
-            //moving to free ground location
             if (Selected)
             {
                 if (Selected.GetComponent<Unit>())
@@ -136,11 +135,13 @@ public class UserInput : MonoBehaviour {
                     Unit unit = Selected.GetComponent<Unit>();
                     if (unit)
                     {
+                        //moving to free ground location
                         if (hited.name == "Ground")
                         {
                             unit.MoveManager(hit.point, false, null);
                         }
-                        if(hited.transform.GetComponent<Resource>())
+                        //moving to resource source location
+                        if (hited.transform.GetComponent<Resource>())
                         {
                             unit.MoveManager(hit.point, true, hited.transform.GetComponent<Resource>());
                         }

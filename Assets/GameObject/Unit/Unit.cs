@@ -7,7 +7,7 @@ public class Unit : Actor {
     private GameObject mainBase;
     private Player myPlayer;
 
-    private float moveSpeed = 4;
+    private float moveSpeed = 3;
     private float rotateSpeed = 5;
 
     private float gatheringSpeed;
@@ -22,13 +22,17 @@ public class Unit : Actor {
     private bool rotate;
     private bool wantToGather;
     private bool goingBackToBase;
+    private bool isColliding;
+    private bool turnOnCollider;
 
+    private CollisionDetection collisionDetection;
     private Vector3 basePosition;
     private Vector3 resourcePosition;
-
+    
     protected override void Start () {
         base.Start();
         
+
         mainBase = GameObject.FindGameObjectWithTag("Base");
         basePosition = mainBase.transform.position;
 
@@ -45,24 +49,34 @@ public class Unit : Actor {
         isSelected = false;
         move = false;
         rotate = false;
+        
+        if (transform.GetComponentInChildren<CollisionDetection>())
+        {
+            collisionDetection = transform.GetComponentInChildren<CollisionDetection>();
+            
+        }
+        else
+            Debug.Log("Cant find child with collisionDetection");
+        turnOnCollider = false;
     }
 
     // Update is called once per frame
     protected override void Update () {
         base.Update();
+
+        isColliding = collisionDetection.colliding;
         UpdatePosition();
         if(resource == maxResource)
         {
             wantToGather = false;
         }
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (goingBackToBase == true || wantToGather == true)
+
+        if(turnOnCollider == true)
         {
-            if (collision.gameObject.tag == "Gatherer")
+            if(isColliding == false)
             {
-                Physics.IgnoreCollision(collision.collider, this.transform.GetComponent<BoxCollider>());
+                turnOnCollider = false;
+                TurnOnCollision();
             }
         }
     }
@@ -84,6 +98,23 @@ public class Unit : Actor {
             rotate = false;
         }
 
+    }
+    static void SetLayerOnAll(GameObject obj, int layer)
+    {
+        foreach (Transform trans in obj.GetComponentsInChildren<Transform>(true))
+        {
+            trans.gameObject.layer = layer;
+        }
+    }
+    private void TurnOnCollision()
+    {
+        //SetLayerOnAll(this.gameObject, LayerMask.NameToLayer("Unit"));
+        transform.gameObject.layer = LayerMask.NameToLayer("Unit");
+    }
+    private void TurnOffCollision()
+    {
+        //SetLayerOnAll(this.gameObject, LayerMask.NameToLayer("Gathering"));
+        transform.gameObject.layer = LayerMask.NameToLayer("Gathering");
     }
     public float GetGatheringSpeed()
     {
@@ -165,17 +196,28 @@ public class Unit : Actor {
     }
     public void MoveManager(Vector3 destination, bool isResource, Resource resource)
     {
+
         if (isResource)
         {          
             MoveObject(destination);
             wantToGather = true;
-   
+            TurnOffCollision();   
         }
         else if (!isResource)
         {
             MoveObject(destination);
             wantToGather = false;
             goingBackToBase = false;
+
+            //isColliding avoiding collision after we change layer
+            if(isColliding == false)
+            {
+                TurnOnCollision();
+            }
+            if(isColliding == true)
+            {
+                turnOnCollider = true;
+            }          
         }
 
     }
