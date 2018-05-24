@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  ResourceAmount: 15
 --- !u!135 &135560185154224806
 SphereCollider:
   m_ObjectHideFlags: 1
