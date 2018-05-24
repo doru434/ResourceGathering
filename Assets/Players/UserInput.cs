@@ -143,17 +143,18 @@ public class UserInput : MonoBehaviour {
                     //moving to free ground location
                     if (hited.name == "Ground")
                     {
-                        unit.MoveManager(hit.point, ToWho.FreeGround, null);
+                        unit.MoveManager(hit.point, ToWho.FreeGround, hited.gameObject.GetInstanceID());
                     }
                     //moving to resource source location
                     if (hited.transform.GetComponent<Resource>())
                     {
-                        unit.MoveManager(hit.point, ToWho.Resource, hited.transform.GetComponent<Resource>());
+                        Debug.Log(hited.name);
+                        unit.MoveManager(hit.point, ToWho.Resource, hited.gameObject.GetInstanceID());
                     }
                     //moving to main base location
                     if (hited.transform.GetComponent<Building>())
                     {
-                        unit.MoveManager(hit.point, ToWho.Building, null);
+                        unit.MoveManager(hit.point, ToWho.Building, hited.gameObject.GetInstanceID());
                     }
 
                 }
@@ -195,10 +196,7 @@ public class UserInput : MonoBehaviour {
                 if (Selected.GetComponent<Actor>())
                 {
                     Actor actor = Selected.GetComponent<Actor>();
-                    actor.isSelected = true;
-
-
-                   
+                    actor.isSelected = true;                   
                     SomethingSelected = true;                  
                 }
             }

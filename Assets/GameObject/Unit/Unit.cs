@@ -17,6 +17,7 @@ public class Unit : Actor {
 
     public float lastGather;
     public int maxResource;
+    private int gatheringSourceID;
 
     private Vector3 desiredPosition;
     private bool move;
@@ -117,6 +118,10 @@ public class Unit : Actor {
         //SetLayerOnAll(this.gameObject, LayerMask.NameToLayer("Gathering"));
         transform.gameObject.layer = LayerMask.NameToLayer("Gathering");
     }
+    public int GetGatheringSourceID()
+    {
+        return gatheringSourceID;
+    }
     public float GetGatheringSpeed()
     {
         return gatheringSpeed;
@@ -195,13 +200,14 @@ public class Unit : Actor {
         else
             return false;
     }
-    public void MoveManager(Vector3 destination, ToWho where, Resource resource)
+    public void MoveManager(Vector3 destination, ToWho where, int resourceID)
     {
 
         if (where==ToWho.Resource )
-        {          
-            MoveObject(destination);
+        {
+            gatheringSourceID = resourceID;
             wantToGather = true;
+            MoveObject(destination);
             TurnOffCollision();   
         }
         if (where==ToWho.FreeGround)
@@ -282,6 +288,6 @@ public class Unit : Actor {
                 }                             
             }
         }
-        MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource);
+        MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
     }
 }

@@ -23,10 +23,10 @@ public class Resource : Actor
 	}
     void OnTriggerStay(Collider other)
     {
-       if( other.GetComponent<Unit>())
+       if(other.GetComponent<Unit>())
         {
             Unit eager = other.GetComponent<Unit>();
-            if (eager.GetWantToGather() && ResourceAmount!=0)
+            if (eager.GetWantToGather() && ResourceAmount!=0 && this.transform.gameObject.GetInstanceID() == eager.GetGatheringSourceID())
             {
 
                 int gatherAmount = eager.GetGatheringAmount();
