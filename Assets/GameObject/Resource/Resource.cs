@@ -5,12 +5,11 @@ using UnityEngine;
 public class Resource : Actor
 {
     enum ResourceLeft { Pass=0, Less, ToMany}
-    private int ResourceAmount;
+    public int ResourceAmount;
    
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 11;       
     }
 
     // Update is called once per frame

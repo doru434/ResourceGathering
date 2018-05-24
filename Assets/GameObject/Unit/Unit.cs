@@ -267,14 +267,21 @@ public class Unit : Actor {
         resourcePosition = resourceLocation;
     }
     public void FindNextSource()
-    {      
+    {
+        float closest=99999;
+        Resource destinationResource = myPlayer.resourcesList[0];
         foreach (Resource i in myPlayer.resourcesList)
         {
             if (i.GetResource() != 0)
-            {
-                MoveManager(i.transform.position, ToWho.Resource, i);
-                break;
+            {      
+                float temp = Vector3.Distance(this.transform.position, i.transform.position);
+                if(temp < closest)
+                {
+                    closest = temp;
+                    destinationResource = i;
+                }                             
             }
         }
+        MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource);
     }
 }
