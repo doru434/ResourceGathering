@@ -148,7 +148,6 @@ public class UserInput : MonoBehaviour {
                     //moving to resource source location
                     if (hited.transform.GetComponent<Resource>())
                     {
-                        Debug.Log(hited.name);
                         unit.MoveManager(hit.point, ToWho.Resource, hited.gameObject.GetInstanceID());
                     }
                     //moving to main base location

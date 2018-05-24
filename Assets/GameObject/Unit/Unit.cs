@@ -26,6 +26,7 @@ public class Unit : Actor {
     private bool goingBackToBase;
     private bool isColliding;
     private bool turnOnCollider;
+    private bool gathering;
 
     private CollisionDetection collisionDetection;
     private Vector3 basePosition;
@@ -46,6 +47,7 @@ public class Unit : Actor {
         gatheringAmount = 2;
         resource = 0;
         maxResource = 6;
+        gathering = false;
         wantToGather = false;
         goingBackToBase = false;
         isSelected = false;
@@ -81,8 +83,25 @@ public class Unit : Actor {
                 TurnOnCollision();
             }
         }
-    }
+        if(move==false && wantToGather == true && gathering ==false)
+        {
+            FindNextSource();
+        }
 
+    }
+    private bool IsMoving()
+    {
+
+        Vector3 before = transform.position;
+        new WaitForSecondsRealtime(1);
+        Vector3 after = transform.position;
+        if(after != before)
+        {
+            return true;
+        }
+        return false;
+
+    }
     private void UpdatePosition()
     {
         if(move == true)
@@ -142,6 +161,14 @@ public class Unit : Actor {
     {
         return goingBackToBase;
     }
+    public bool GetGathering()
+    {
+        return gathering;
+    }
+    public void SetGathering(bool set)
+    {
+        gathering = set;
+    }
     public void SetResourceCount(int lastPart, int SourceResource)
     {
         if (lastPart == 0)
@@ -180,7 +207,7 @@ public class Unit : Actor {
         resource = 0;
         goingBackToBase = false;
         wantToGather = true;
-        MoveObject(resourcePosition);
+        MoveObject(resourcePosition);        
     }
     public bool SpaceForResource()
     {
@@ -275,7 +302,8 @@ public class Unit : Actor {
     public void FindNextSource()
     {
         float closest=99999;
-        Resource destinationResource = myPlayer.resourcesList[0];
+
+        Resource destinationResource = null;
         foreach (Resource i in myPlayer.resourcesList)
         {
             if (i.GetResource() != 0)
@@ -288,6 +316,9 @@ public class Unit : Actor {
                 }                             
             }
         }
-        MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
+        if(destinationResource!=null)
+        {
+            MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
+        }
     }
 }
