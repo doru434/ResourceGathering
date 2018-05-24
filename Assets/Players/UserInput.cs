@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ToWho
+{
+    Resource = 0,
+    Building,
+    FreeGround
+};
 public class UserInput : MonoBehaviour {
 
     private Player player = null;
@@ -13,7 +19,7 @@ public class UserInput : MonoBehaviour {
     private static int MAX_ZOOM = 20;
     private static int ROTATE_SPEED = 100;
 
-
+    
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
@@ -133,19 +139,23 @@ public class UserInput : MonoBehaviour {
                 if (Selected.GetComponent<Unit>())
                 {
                     Unit unit = Selected.GetComponent<Unit>();
-                    if (unit)
+
+                    //moving to free ground location
+                    if (hited.name == "Ground")
                     {
-                        //moving to free ground location
-                        if (hited.name == "Ground")
-                        {
-                            unit.MoveManager(hit.point, false, null);
-                        }
-                        //moving to resource source location
-                        if (hited.transform.GetComponent<Resource>())
-                        {
-                            unit.MoveManager(hit.point, true, hited.transform.GetComponent<Resource>());
-                        }
+                        unit.MoveManager(hit.point, ToWho.FreeGround, null);
                     }
+                    //moving to resource source location
+                    if (hited.transform.GetComponent<Resource>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Resource, hited.transform.GetComponent<Resource>());
+                    }
+                    //moving to main base location
+                    if (hited.transform.GetComponent<Building>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Building, null);
+                    }
+
                 }
             }
        

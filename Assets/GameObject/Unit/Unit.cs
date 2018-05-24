@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Unit : Actor {
@@ -194,16 +195,16 @@ public class Unit : Actor {
         else
             return false;
     }
-    public void MoveManager(Vector3 destination, bool isResource, Resource resource)
+    public void MoveManager(Vector3 destination, ToWho where, Resource resource)
     {
 
-        if (isResource)
+        if (where==ToWho.Resource )
         {          
             MoveObject(destination);
             wantToGather = true;
             TurnOffCollision();   
         }
-        else if (!isResource)
+        if (where==ToWho.FreeGround)
         {
             MoveObject(destination);
             wantToGather = false;
@@ -218,6 +219,12 @@ public class Unit : Actor {
             {
                 turnOnCollider = true;
             }          
+        }
+        if(where==ToWho.Building)
+        {
+            MoveObject(destination);
+            goingBackToBase = true;
+            TurnOffCollision();
         }
 
     }
@@ -265,7 +272,7 @@ public class Unit : Actor {
         {
             if (i.GetResource() != 0)
             {
-                MoveManager(i.transform.position, true, i);
+                MoveManager(i.transform.position, ToWho.Resource, i);
                 break;
             }
         }
