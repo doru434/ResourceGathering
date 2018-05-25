@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ToWho
+{
+    Resource = 0,
+    Building,
+    FreeGround
+};
 public class UserInput : MonoBehaviour {
+
     private Player player = null;
     private GameObject Selected=null;
     private bool SomethingSelected = false;
@@ -12,7 +19,7 @@ public class UserInput : MonoBehaviour {
     private static int MAX_ZOOM = 20;
     private static int ROTATE_SPEED = 100;
 
-
+    
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
@@ -127,23 +134,28 @@ public class UserInput : MonoBehaviour {
         { 
             GameObject hited = hit.transform.gameObject;
 
-            //moving to free ground location
             if (Selected)
             {
                 if (Selected.GetComponent<Unit>())
                 {
                     Unit unit = Selected.GetComponent<Unit>();
-                    if (unit)
+
+                    //moving to free ground location
+                    if (hited.name == "Ground")
                     {
-                        if (hited.name == "Ground")
-                        {
-                            unit.MoveManager(hit.point, false, null);
-                        }
-                        if(hited.transform.GetComponent<Resource>())
-                        {
-                            unit.MoveManager(hit.point, true, hited.transform.GetComponent<Resource>());
-                        }
+                        unit.MoveManager(hit.point, ToWho.FreeGround, hited.gameObject.GetInstanceID());
                     }
+                    //moving to resource source location
+                    if (hited.transform.GetComponent<Resource>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Resource, hited.gameObject.GetInstanceID());
+                    }
+                    //moving to main base location
+                    if (hited.transform.GetComponent<Building>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Building, hited.gameObject.GetInstanceID());
+                    }
+
                 }
             }
        
@@ -161,7 +173,7 @@ public class UserInput : MonoBehaviour {
         return null;
     }
     // if actor was selected deselect him
-    private void DeselectPreviousActor()
+    public void DeselectPreviousActor()
     {
         if (SomethingSelected == true)
         {
@@ -183,10 +195,7 @@ public class UserInput : MonoBehaviour {
                 if (Selected.GetComponent<Actor>())
                 {
                     Actor actor = Selected.GetComponent<Actor>();
-                    actor.isSelected = true;
-
-
-                   
+                    actor.isSelected = true;                   
                     SomethingSelected = true;                  
                 }
             }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private GameObject[] resourcesArray;
     public List<Resource> resourcesList;
 	// Use this for initialization
-	void Start () {
+	void Start () { 
         Transform child = transform.GetChild(0);
         resourcesList = new List<Resource>();
         hUDsc = child.GetComponent<HUDsc>();
