@@ -85,7 +85,7 @@ public class Unit : Actor {
         }
         if(move==false && wantToGather == true && gathering ==false)
         {
-            FindNextSource();
+            FindNextSource(0);
         }
 
     }
@@ -299,7 +299,7 @@ public class Unit : Actor {
     {
         resourcePosition = resourceLocation;
     }
-    public void FindNextSource()
+    public void FindNextSource(int resourceID)
     {
         float closest=99999;
 
@@ -311,8 +311,16 @@ public class Unit : Actor {
                 float temp = Vector3.Distance(this.transform.position, i.transform.position);
                 if(temp < closest)
                 {
-                    closest = temp;
-                    destinationResource = i;
+                    if (resourceID == 0)
+                    {
+                        closest = temp;
+                        destinationResource = i;
+                    }
+                    if(i.gameObject.GetInstanceID()!=resourceID)
+                    {
+                        closest = temp;
+                        destinationResource = i;
+                    }
                 }                             
             }
         }
@@ -320,5 +328,15 @@ public class Unit : Actor {
         {
             MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
         }
+        if (destinationResource == null)
+        {
+            Wait(resourceID);
+        }
+    }
+    private void Wait(int resourceID)
+    {
+        MoveManager(transform.position, ToWho.FreeGround, resourceID);
+
+
     }
 }

@@ -58,7 +58,8 @@ public class Resource : Actor
                         }
                     case 4:
                         {
-                            eager.FindNextSource();
+                            Debug.Log("tutaj");
+                            eager.FindNextSource(this.gameObject.GetInstanceID());
                             break;
                         }
                 }
@@ -80,7 +81,7 @@ public class Resource : Actor
             if (ResourceAmount == 0 && !eager.IsFull())
             {
                 eager.SetGathering(false);
-                eager.FindNextSource();
+                eager.FindNextSource(0);
             }
         }
 
