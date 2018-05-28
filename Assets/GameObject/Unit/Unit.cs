@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+using UnityEngine.AI;
 using UnityEngine;
+
 
 public class Unit : Actor {
     // Use this for initialization
@@ -27,15 +29,19 @@ public class Unit : Actor {
     private bool isColliding;
     private bool turnOnCollider;
     private bool gathering;
+    private bool isWaiting;
 
     private CollisionDetection collisionDetection;
     private Vector3 basePosition;
     private Vector3 resourcePosition;
-    
+
+    private NavMeshAgent navMeshAgent;
+
+
     protected override void Start () {
         base.Start();
-        
 
+        navMeshAgent = GetComponent<NavMeshAgent>();     
         mainBase = GameObject.FindGameObjectWithTag("Base");
         basePosition = mainBase.transform.position;
 
@@ -53,7 +59,7 @@ public class Unit : Actor {
         isSelected = false;
         move = false;
         rotate = false;
-        
+        isWaiting = false;
         if (transform.GetComponentInChildren<CollisionDetection>())
         {
             collisionDetection = transform.GetComponentInChildren<CollisionDetection>();
@@ -83,23 +89,10 @@ public class Unit : Actor {
                 TurnOnCollision();
             }
         }
-        if(move==false && wantToGather == true && gathering ==false)
+        if(move==false && wantToGather == true && gathering == false && isWaiting == false)
         {
             FindNextSource(0);
         }
-
-    }
-    private bool IsMoving()
-    {
-
-        Vector3 before = transform.position;
-        new WaitForSecondsRealtime(1);
-        Vector3 after = transform.position;
-        if(after != before)
-        {
-            return true;
-        }
-        return false;
 
     }
     private void UpdatePosition()
@@ -137,6 +130,10 @@ public class Unit : Actor {
         //SetLayerOnAll(this.gameObject, LayerMask.NameToLayer("Gathering"));
         transform.gameObject.layer = LayerMask.NameToLayer("Gathering");
     }
+    public bool GetIsWaiting()
+    {
+        return isWaiting;
+    }
     public int GetGatheringSourceID()
     {
         return gatheringSourceID;
@@ -164,6 +161,10 @@ public class Unit : Actor {
     public bool GetGathering()
     {
         return gathering;
+    }
+    public void SetIsWaiting(bool set)
+    {
+        isWaiting = set;
     }
     public void SetGathering(bool set)
     {
@@ -335,8 +336,7 @@ public class Unit : Actor {
     }
     private void Wait(int resourceID)
     {
-        MoveManager(transform.position, ToWho.FreeGround, resourceID);
-
-
+        MoveManager(this.transform.position, ToWho.Resource, resourceID);
+        isWaiting = true;       
     }
 }

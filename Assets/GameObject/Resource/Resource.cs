@@ -58,7 +58,6 @@ public class Resource : Actor
                         }
                     case 4:
                         {
-                            Debug.Log("tutaj");
                             eager.FindNextSource(this.gameObject.GetInstanceID());
                             break;
                         }
@@ -89,6 +88,7 @@ public class Resource : Actor
     private void Gather(Unit eager)
     {
         eager.SetGathering(true);
+        eager.SetIsWaiting(false);
         int gatherAmount = eager.GetGatheringAmount();
 
         if (ResourceAmount - gatherAmount >= 0 && eager.EnoughtSpace())
