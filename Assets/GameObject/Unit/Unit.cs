@@ -73,7 +73,6 @@ public class Unit : Actor {
     // Update is called once per frame
     protected override void Update () {
         base.Update();
-
         isColliding = collisionDetection.colliding;
         UpdatePosition();
         if(resource == maxResource)
@@ -93,17 +92,64 @@ public class Unit : Actor {
         {
             FindNextSource(0);
         }
+        if(move = true && wantToGather == true && gathering == false && isWaiting == false)
+        {
+            ///  FindNextSource(0);
+            if(CheckIfEmpty())
+            {
+                FindNextSource(0);
+            }
+        }
 
+    }
+    private void IsMoving()
+    {
+        float startTime = 0.0f;
+        Vector3 position1 = this.transform.position;
+        startTime += Time.deltaTime;
+        if(startTime >= 2.0f)
+        {
+            if(this.transform.position == position1)
+            {
+                move = false;
+                startTime = 0;
+            }
+            if(this.transform.position != position1)
+            {
+                startTime = 0;
+            }
+
+        }
     }
     private void UpdatePosition()
     {
+        //IsMoving();
+        if (gathering == true)
+        {
+            navMeshAgent.radius = 0.1f;
+        }
+        if(wantToGather == false && gathering == false)
+        {
+            navMeshAgent.radius = 0.8f;
+        }
         if(move == true)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, desiredPosition, Time.deltaTime * moveSpeed);
+            navMeshAgent.enabled = true;
+            if (navMeshAgent.enabled == true)
+            {
+                navMeshAgent.SetDestination(desiredPosition);
+            }
+            if(navMeshAgent.enabled == false)
+            {
+                this.transform.position = Vector3.MoveTowards(this.transform.position, desiredPosition, Time.deltaTime * moveSpeed);
+            }
         }
         if(rotate == true)
         {
-            RotateObject();
+            if (navMeshAgent.enabled == false)
+            {
+                RotateObject();
+            }
         }
 
         if(desiredPosition == this.transform.position)
@@ -129,6 +175,10 @@ public class Unit : Actor {
     {
         //SetLayerOnAll(this.gameObject, LayerMask.NameToLayer("Gathering"));
         transform.gameObject.layer = LayerMask.NameToLayer("Gathering");
+    }
+    public bool GetStateOfNavMeshAgent()
+    {
+        return navMeshAgent.enabled;
     }
     public bool GetIsWaiting()
     {
@@ -242,6 +292,7 @@ public class Unit : Actor {
         {
             MoveObject(destination);
             wantToGather = false;
+            gathering = false;
             goingBackToBase = false;
 
             //isColliding avoiding collision after we change layer
@@ -338,5 +389,39 @@ public class Unit : Actor {
     {
         MoveManager(this.transform.position, ToWho.Resource, resourceID);
         isWaiting = true;       
+    }
+    public void ChangeStateOfNavMeshAgent(bool boolean)
+    {
+        transform.GetComponent<NavMeshAgent>().enabled = boolean;
+        Rigidbody thisRigidbody = transform.GetComponent<Rigidbody>();
+        if (boolean == true)
+        {
+           thisRigidbody.isKinematic = true;
+        }
+        if(boolean == false)
+        {
+           thisRigidbody.isKinematic = false;
+        }
+    }
+    public bool CheckIfEmpty()
+    {        
+        foreach (Resource i in myPlayer.resourcesList)
+        {
+            if (i != null)
+            {
+                if (i.gameObject.GetInstanceID() == gatheringSourceID)
+                {
+                    if (i.ResourceAmount == 0)
+                    {
+                        return true;
+                    }
+                    if (i.ResourceAmount != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

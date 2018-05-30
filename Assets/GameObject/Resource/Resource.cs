@@ -8,6 +8,7 @@ public class Resource : Actor
     enum ResourceLeft { Pass = 0, Less, ToMany }
     public int ResourceAmount;
     private int[] gatherers = new int[2];
+
     // Use this for initialization
     protected override void Start() {
         base.Start();
@@ -20,7 +21,10 @@ public class Resource : Actor
         base.Update();
         if (Depleted())
         {
-            DestroySource();
+            if(gatherers[0]==0 && gatherers[1]==0)
+            {
+                DestroySource();
+            }
         }
     }
     void OnTriggerStay(Collider other)
@@ -63,7 +67,7 @@ public class Resource : Actor
                         }
                 }
             }
-            if (eager.IsFull())
+            if (eager.IsFull() && this.transform.gameObject.GetInstanceID() == eager.GetGatheringSourceID())
             {
                 if(gatherers[0]==eager.gameObject.GetInstanceID())
                 {
@@ -75,11 +79,21 @@ public class Resource : Actor
                 }
                 eager.SetGathering(false);
                 eager.RememberResourcePosition(this.transform.position);
+                eager.ChangeStateOfNavMeshAgent(true);
                 eager.ReturnResources();
             }
             if (ResourceAmount == 0 && !eager.IsFull())
             {
                 eager.SetGathering(false);
+                if (gatherers[0] == eager.gameObject.GetInstanceID())
+                {
+                    gatherers[0] = 0;
+                }
+                if (gatherers[1] == eager.gameObject.GetInstanceID())
+                {
+                    gatherers[1] = 0;
+                }
+                eager.ChangeStateOfNavMeshAgent(true);
                 eager.FindNextSource(0);
             }
         }
@@ -89,6 +103,12 @@ public class Resource : Actor
     {
         eager.SetGathering(true);
         eager.SetIsWaiting(false);
+
+        if(eager.GetStateOfNavMeshAgent())
+        {
+           eager.ChangeStateOfNavMeshAgent(false);
+        }
+
         int gatherAmount = eager.GetGatheringAmount();
 
         if (ResourceAmount - gatherAmount >= 0 && eager.EnoughtSpace())

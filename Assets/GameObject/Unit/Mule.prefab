@@ -56,10 +56,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4846736279932834}
   - component: {fileID: 33003967204510068}
-  - component: {fileID: 65331843815144864}
   - component: {fileID: 23197239445624892}
   - component: {fileID: 114774409020121344}
   - component: {fileID: 54336636739201194}
+  - component: {fileID: 195033945846072864}
+  - component: {fileID: 65980569787601376}
   m_Layer: 9
   m_Name: Mule
   m_TagString: Gatherer
@@ -100,7 +101,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1991779665804710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.06, y: 0.5, z: 10.47}
+  m_LocalPosition: {x: 3.31, y: 0.83, z: 9.167783}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4368233400446860}
@@ -242,22 +243,10 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65331843815144864
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1991779665804710}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65809335649590918
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -268,8 +257,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 3, z: 0.8}
+  m_Size: {x: 5, y: 3, z: 1}
   m_Center: {x: -2, y: 2, z: 0}
+--- !u!65 &65980569787601376
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991779665804710}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.5, z: 2}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &114416567848980194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -296,3 +297,24 @@ MonoBehaviour:
   isSelected: 0
   lastGather: 0
   maxResource: 10
+--- !u!195 &195033945846072864
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1991779665804710}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1
+  m_Speed: 6.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 220
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 0
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 3
