@@ -388,44 +388,6 @@ Prefab:
       propertyPath: m_Name
       value: Building
       objectReference: {fileID: 0}
-    - target: {fileID: 114090823332086044, guid: e0e4c9b8c24f9874f98754c6e81b138e,
-        type: 2}
-      propertyPath: newMule
-      value: 
-      objectReference: {fileID: 4846736279932834, guid: 23b53df4fb661b34285fb67fcfca0957,
-        type: 2}
-    - target: {fileID: 1158676799924346, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 1406079974002136, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_TagString
-      value: Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 1406079974002136, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158676799924346, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1240882799652334, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1406079974002136, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_NavMeshLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158676799924346, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_NavMeshLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1240882799652334, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
-      propertyPath: m_NavMeshLayer
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0e4c9b8c24f9874f98754c6e81b138e, type: 2}
   m_IsPrefabParent: 0
