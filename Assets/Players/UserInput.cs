@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ToWho
+{
+    Resource = 0,
+    Building,
+    FreeGround
+};
 public class UserInput : MonoBehaviour {
+
     private Player player = null;
     private GameObject Selected=null;
     private bool SomethingSelected = false;
@@ -12,7 +19,7 @@ public class UserInput : MonoBehaviour {
     private static int MAX_ZOOM = 20;
     private static int ROTATE_SPEED = 100;
 
-
+    
     // Use this for initialization
     void Start () {
         player = transform.root.GetComponent<Player>();
@@ -23,9 +30,13 @@ public class UserInput : MonoBehaviour {
         MoveCamera();
         RotateCamera();
         GetMouseClick();
+        if(Selected)
+        {
+            HudUpdate(Selected.name);
+        }
     }
-    public bool getSomethingSelected() { return SomethingSelected; }
-    public GameObject getSelected() { return Selected; }
+    public bool GetSomethingSelected() { return SomethingSelected; }
+    public GameObject GetSelected() { return Selected; }
     // moves camera in x-z axis
     private void MoveCamera()
     {
@@ -123,23 +134,28 @@ public class UserInput : MonoBehaviour {
         { 
             GameObject hited = hit.transform.gameObject;
 
-            //moving to free ground location
             if (Selected)
             {
                 if (Selected.GetComponent<Unit>())
                 {
                     Unit unit = Selected.GetComponent<Unit>();
-                    if (unit)
+
+                    //moving to free ground location
+                    if (hited.name == "Ground")
                     {
-                        if (hited.name == "Ground")
-                        {
-                            unit.MoveManager(hit.point, false, null);
-                        }
-                        if(hited.transform.GetComponent<Resource>())
-                        {
-                            unit.MoveManager(hit.point, true, hited.transform.GetComponent<Resource>());
-                        }
+                        unit.MoveManager(hit.point, ToWho.FreeGround, hited.gameObject.GetInstanceID());
                     }
+                    //moving to resource source location
+                    if (hited.transform.GetComponent<Resource>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Resource, hited.gameObject.GetInstanceID());
+                    }
+                    //moving to main base location
+                    if (hited.transform.GetComponent<Building>())
+                    {
+                        unit.MoveManager(hit.point, ToWho.Building, hited.gameObject.GetInstanceID());
+                    }
+
                 }
             }
        
@@ -157,13 +173,17 @@ public class UserInput : MonoBehaviour {
         return null;
     }
     // if actor was selected deselect him
-    private void DeselectPreviousActor()
+    public void DeselectPreviousActor()
     {
         if (SomethingSelected == true)
         {
-            Actor actor = Selected.GetComponent<Actor>();
-            actor.isSelected = false;
-            SomethingSelected = false;
+            if(Selected.GetComponent<Actor>())
+            {
+                Actor actor = Selected.GetComponent<Actor>();
+                actor.isSelected = false;
+                actor.ChangeStateOfLight();
+            }
+            SomethingSelected = false;            
         }
     }
     private void SelectActor()
@@ -176,28 +196,32 @@ public class UserInput : MonoBehaviour {
                 {
                     Actor actor = Selected.GetComponent<Actor>();
                     actor.isSelected = true;
-
-
-                   
-                    SomethingSelected = true;
-                    CallHudUpdate(Selected.name);
+                    actor.ChangeStateOfLight();
+                    SomethingSelected = true;                  
                 }
             }
         }
     }
-    private void CallHudUpdate(string name)
+    private void HudUpdate(string name)
     {
-        int resourceAmount = 0;
+       int resourceAmount = 0;
        if(Selected.GetComponent<Unit>())
        {
             Unit unit = Selected.GetComponent<Unit>();
-            resourceAmount = unit.getResource();
+            resourceAmount = unit.GetResource();
+            player.UpdateHUD(name, resourceAmount);
         }
         if (Selected.GetComponent<Resource>())
         {
             Resource resource = Selected.GetComponent<Resource>();
-            resourceAmount = resource.getResource();
+            resourceAmount = resource.GetResource();
+            player.UpdateHUD(name, resourceAmount);
         }
-        player.UpdateHUD(name, resourceAmount);
+        if (Selected.GetComponent<Building>())
+        {
+            Building building = Selected.GetComponent<Building>();
+            resourceAmount = building.GetResource();
+            player.UpdateHUD(name, resourceAmount);
+        }
     }
 }

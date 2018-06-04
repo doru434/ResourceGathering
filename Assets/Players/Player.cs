@@ -7,12 +7,16 @@ public class Player : MonoBehaviour
 {
     public string PlayerName;
     private HUDsc hUDsc;
-
+    private GameObject[] resourcesArray;
+    public List<Resource> resourcesList;
 	// Use this for initialization
-	void Start () {
+	void Start () { 
         Transform child = transform.GetChild(0);
+        resourcesList = new List<Resource>();
         hUDsc = child.GetComponent<HUDsc>();
-        hUDsc.SetChilds(); 
+        hUDsc.SetChilds();
+        resourcesArray=GameObject.FindGameObjectsWithTag("Resource");
+        InitializeAllResources();
     }
 	
 	// Update is called once per frame
@@ -21,10 +25,16 @@ public class Player : MonoBehaviour
     }
     public void UpdateHUD(string name, int resourceAmount)
     {
-        Text Object_name = hUDsc.GetHUDTextObjectByName("Object_name");
-        Object_name.text = name;
-        Text Object_Resources = hUDsc.GetHUDTextObjectByName("Object_Resources");
-        Object_Resources.text = resourceAmount.ToString();
+        hUDsc.UpdateHUD( name, resourceAmount);
     }
+    private void InitializeAllResources()
+    {
+        foreach(GameObject i in resourcesArray)
+        {
+            Resource temp = i.transform.GetComponent<Resource>();
+            resourcesList.Add(temp);
+        }
+    }
+
     
 }

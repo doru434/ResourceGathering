@@ -6,7 +6,7 @@ public class Actor : MonoBehaviour {
 
     protected int hp;
     public bool isSelected;
-
+    
     // Use this for initialization
     protected virtual void Start () {
 		
@@ -24,5 +24,19 @@ public class Actor : MonoBehaviour {
     {
 
     }
-
+    public void ChangeStateOfLight()
+    {
+        if(transform.GetComponentInChildren<Light>())
+        {
+            Light SelectionLight = transform.GetComponentInChildren<Light>();
+            if (isSelected==true)
+            {
+                SelectionLight.enabled = true;
+            }
+            if (isSelected == false)
+            {
+                SelectionLight.enabled = false;
+            }
+        }
+    }
 }
