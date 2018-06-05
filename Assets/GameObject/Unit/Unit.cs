@@ -45,11 +45,11 @@ public class Unit : Actor {
     // Update is called once per frame
     protected override void Update () {
         base.Update();
-        Vector3 a = new Vector3(5.0f, 5.0f, 5.0f );
-        Debug.DrawLine(this.transform.position, a, Color.green, 10.0f);
+
+        //Debug.DrawLine(this.transform.position, a, Color.green, 10.0f);
         // Checing do Unit collide with another unit
         isColliding = collisionDetection.colliding;
-        Debug.DrawLine(new Vector3(200f, 200f, 200f), Vector3.zero, Color.green, 2f, false);
+       // Debug.DrawLine(new Vector3(200f, 200f, 200f), Vector3.zero, Color.green, 2f, false);
         // ChangeStateOfLight();
         UpdatePosition();
 
@@ -68,7 +68,7 @@ public class Unit : Actor {
     public void DrawDebugLine(Vector3 resourcePosition)
     {
 
-        Debug.DrawLine(this.transform.position, resourcePosition, Color.green, 20); 
+        Debug.DrawLine(this.transform.position, resourcePosition, Color.green); 
 
     }
     private void InitializeParameters()

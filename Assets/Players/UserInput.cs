@@ -200,6 +200,10 @@ public class UserInput : MonoBehaviour {
                     SomethingSelected = true;                  
                 }
             }
+            if(Selected.name == "Ground")
+            {
+                player.UpdateHUD("", -1);
+            }
         }
     }
     private void HudUpdate(string name)

@@ -135,6 +135,7 @@ public class Resource : Actor
         eager.SetGathering(true);      
         eager.SetIsWaiting(false);
 
+        eager.DrawDebugLine(transform.position);
         if(eager.GetStateOfNavMeshAgent())
         {
            eager.ChangeStateOfRigidBody(false);

@@ -73,10 +73,10 @@ GameObject:
   - component: {fileID: 4846736279932834}
   - component: {fileID: 33003967204510068}
   - component: {fileID: 23197239445624892}
-  - component: {fileID: 114774409020121344}
   - component: {fileID: 54336636739201194}
   - component: {fileID: 195033945846072864}
   - component: {fileID: 65980569787601376}
+  - component: {fileID: 114603795228203044}
   m_Layer: 9
   m_Name: Mule
   m_TagString: Gatherer
@@ -130,7 +130,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1991779665804710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.31, y: 0.83, z: 9.167783}
+  m_LocalPosition: {x: 3.5133047, y: 1.11, z: 9.811136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4368233400446860}
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliding: 0
---- !u!114 &114774409020121344
+--- !u!114 &114603795228203044
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -357,12 +357,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1991779665804710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f6d49588a1b0324fa37df20fa273a01, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b609c54ae610b74e82878fc04fa452c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
   lastGather: 0
-  maxResource: 10
+  maxResource: 0
 --- !u!195 &195033945846072864
 NavMeshAgent:
   m_ObjectHideFlags: 1
