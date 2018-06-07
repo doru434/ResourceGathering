@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23237003042279224}
   m_Layer: 0
   m_Name: Crown
-  m_TagString: Untagged
+  m_TagString: TreeDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 23470505609399286}
   m_Layer: 0
   m_Name: Lower_trunk
-  m_TagString: Untagged
+  m_TagString: Trunk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 23891751019948150}
   m_Layer: 0
   m_Name: Log
-  m_TagString: Untagged
+  m_TagString: TreeDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8

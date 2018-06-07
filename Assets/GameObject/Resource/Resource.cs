@@ -8,7 +8,7 @@ public class Resource : Actor
     enum ResourceLeft { Pass = 0, Less, ToMany }
     public int ResourceAmount;
     private int[] gatherers = new int[2];
-
+    private bool destroyed = false;
     // Use this for initialization
     protected override void Start() {
         base.Start();
@@ -22,8 +22,9 @@ public class Resource : Actor
        // ChangeStateOfLight();
         if (Depleted())
         {
-            if(gatherers[0]==0 && gatherers[1]==0)
+            if (gatherers[0] == 0 && gatherers[1] == 0 && destroyed == false)
             {
+                destroyed = true;
                 DestroySource();
             }
         }
@@ -223,6 +224,17 @@ public class Resource : Actor
     {
         UserInput input = FindObjectOfType<UserInput>();
         input.DeselectPreviousActor();
-        Destroy(gameObject);      
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "TreeDestroy")
+            {
+                if (child.GetComponent<Light>())
+                {
+                    child.GetComponent<Light>().enabled = false;
+                }
+                GameObject.Destroy(child.gameObject);               
+            }
+        }
+        GetComponent<BoxCollider>().enabled = false;
     }
 }

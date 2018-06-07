@@ -46,11 +46,9 @@ public class Unit : Actor {
     protected override void Update () {
         base.Update();
 
-        //Debug.DrawLine(this.transform.position, a, Color.green, 10.0f);
+
         // Checing do Unit collide with another unit
         isColliding = collisionDetection.colliding;
-       // Debug.DrawLine(new Vector3(200f, 200f, 200f), Vector3.zero, Color.green, 2f, false);
-        // ChangeStateOfLight();
         UpdatePosition();
 
         // Stoping gathering when full

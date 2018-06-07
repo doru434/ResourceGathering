@@ -8,6 +8,8 @@ TagManager:
   - UnitRadar
   - Base
   - Resource
+  - TreeDestroy
+  - Trunk
   layers:
   - Default
   - TransparentFX

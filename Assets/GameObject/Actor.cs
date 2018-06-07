@@ -29,7 +29,7 @@ public class Actor : MonoBehaviour {
         if(transform.GetComponentInChildren<Light>())
         {
             Light SelectionLight = transform.GetComponentInChildren<Light>();
-            if (isSelected==true)
+            if (isSelected == true)
             {
                 SelectionLight.enabled = true;
             }
