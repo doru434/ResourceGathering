@@ -35,8 +35,6 @@ public class Unit : Actor {
     private bool isWaiting;
 
 
-
-
     protected override void Start () {
         base.Start();
         InitializeParameters();

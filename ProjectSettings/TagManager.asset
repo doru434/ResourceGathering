@@ -10,6 +10,7 @@ TagManager:
   - Resource
   - TreeDestroy
   - Trunk
+  - Light
   layers:
   - Default
   - TransparentFX
