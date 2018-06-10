@@ -15,7 +15,7 @@ public class Building : Actor {
         spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
     }
 
-    // Update is called once per frame
+
     protected override void Update () {
         base.Update();  
         if(ResourceAmount >= MuleCost)
