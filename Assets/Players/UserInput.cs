@@ -181,9 +181,9 @@ public class UserInput : MonoBehaviour {
             {
                 Actor actor = Selected.GetComponent<Actor>();
                 actor.isSelected = false;
+                actor.ChangeStateOfLight();
             }
-            SomethingSelected = false;
-            //we
+            SomethingSelected = false;            
         }
     }
     private void SelectActor()
@@ -195,9 +195,14 @@ public class UserInput : MonoBehaviour {
                 if (Selected.GetComponent<Actor>())
                 {
                     Actor actor = Selected.GetComponent<Actor>();
-                    actor.isSelected = true;                   
+                    actor.isSelected = true;
+                    actor.ChangeStateOfLight();
                     SomethingSelected = true;                  
                 }
+            }
+            if(Selected.name == "Ground")
+            {
+                player.UpdateHUD("", -1);
             }
         }
     }

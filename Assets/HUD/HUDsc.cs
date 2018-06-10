@@ -60,7 +60,14 @@ public class HUDsc : MonoBehaviour {
     }
     public void UpdateHUD(string name, int resourceAmount)
     {
-            Object_name = name;
-            Object_Resources= resourceAmount.ToString();
+        Object_name = name;
+        if(resourceAmount != -1)
+        {
+            Object_Resources = resourceAmount.ToString();
+        }
+        if(resourceAmount == -1)
+        {
+            Object_Resources = "";
+        }
     }
 }
