@@ -6,7 +6,7 @@ public class Actor : MonoBehaviour {
 
     protected int hp;
     public bool isSelected;
-    
+    protected int ResourceAmount;
     // Use this for initialization
     protected virtual void Start () {
 		
@@ -39,4 +39,5 @@ public class Actor : MonoBehaviour {
             }
         }
     }
+    public int Resource{ get { return ResourceAmount; } }
 }

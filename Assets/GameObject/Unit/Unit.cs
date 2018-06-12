@@ -22,7 +22,7 @@ public class Unit : Actor {
     private float rotateSpeed = 5;
     private float gatheringSpeed;
     private int gatheringAmount;
-    private int resource;
+   // private int ResourceAmount;
     private int gatheringSourceID;
 
     private bool move;
@@ -50,7 +50,7 @@ public class Unit : Actor {
         UpdatePosition();
 
         // Stoping gathering when full
-        if(resource == maxResource)
+        if(ResourceAmount == maxResource)
         {
             wantToGather = false;
         }
@@ -79,7 +79,7 @@ public class Unit : Actor {
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
         gatheringAmount = 2;
-        resource = 0;
+        ResourceAmount = 0;
         maxResource = 6;
         gathering = false;
         wantToGather = false;
@@ -183,7 +183,7 @@ public class Unit : Actor {
     }
     public int GetResource()
     {
-        return resource;
+        return ResourceAmount;
     }
     public bool GetWantToGather()
     {
@@ -212,17 +212,17 @@ public class Unit : Actor {
     {
         if (lastPart == 0)
         {
-            resource += gatheringAmount;
+            ResourceAmount += gatheringAmount;
             lastGather = 0;
         }
         if(lastPart == 1)
         {
-            resource += SourceResource;
+            ResourceAmount += SourceResource;
             lastGather = 0;
         }
         if (lastPart == 2)
         {
-            resource += ResourceSpace();
+            ResourceAmount += ResourceSpace();
             lastGather = 0;
         }
     }
@@ -231,7 +231,7 @@ public class Unit : Actor {
     /// </summary>
     public bool EnoughtSpace()
     {
-        if(resource+gatheringAmount <=  maxResource)
+        if(ResourceAmount+gatheringAmount <=  maxResource)
         {
             return true;
         }
@@ -245,14 +245,14 @@ public class Unit : Actor {
     /// </summary>
     public int ResourceSpace()
     {
-        return maxResource - resource;
+        return maxResource - ResourceAmount;
     }
     /// <summary>
     /// Sending unit bact to gathering.
     /// </summary>
     public void TransferResources()
     {
-        resource = 0;
+        ResourceAmount = 0;
         goingBackToBase = false;
         wantToGather = true;
         MoveObject(resourcePosition);        
@@ -262,7 +262,7 @@ public class Unit : Actor {
     /// </summary>
     public bool SpaceForResource()
     {
-        if (resource + gatheringAmount <= maxResource)
+        if (ResourceAmount + gatheringAmount <= maxResource)
         {
             return true;
         }
@@ -276,7 +276,7 @@ public class Unit : Actor {
     /// </summary>
     public bool IsFull()
     {
-        if (resource == maxResource)
+        if (ResourceAmount == maxResource)
             return true;
         else
             return false;
@@ -443,11 +443,11 @@ public class Unit : Actor {
             {
                 if (i.gameObject.GetInstanceID() == gatheringSourceID)
                 {
-                    if (i.ResourceAmount == 0)
+                    if (i.Resource == 0)
                     {
                         return true;
                     }
-                    if (i.ResourceAmount != 0)
+                    if (i.Resource != 0)
                     {
                         return false;
                     }

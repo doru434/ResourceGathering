@@ -7,8 +7,11 @@ public class HUDsc : MonoBehaviour {
     private Transform[] HUDChilds;
     private string Object_name;
     private string Object_Resources;
+    private bool isSelected = false;
+    private bool isBuilding = false;
     // Use this for initialization
     void Start () {
+        isSelected = false;
         SetChilds();
     }
 	
@@ -23,6 +26,16 @@ public class HUDsc : MonoBehaviour {
         {
             Text tempObject_Resources = GetHUDTextObjectByName("Object_Resources");
             tempObject_Resources.text = Object_Resources;
+        }
+        if (GetHUDImageObjectByName("SelectedBar"))
+        {
+            Image tempObject_Resources = GetHUDImageObjectByName("SelectedBar");
+            tempObject_Resources.gameObject.SetActive(isSelected);
+        }
+        if (GetHUDButtonObjectByName("GathererButton"))
+        {
+            Button tempObject_Resources = GetHUDButtonObjectByName("GathererButton");
+            tempObject_Resources.gameObject.SetActive(isBuilding);
         }
     }
     public void SetChilds()
@@ -39,7 +52,7 @@ public class HUDsc : MonoBehaviour {
     {
         return HUDChilds;
     }
-    public Text GetHUDTextObjectByName(string name)
+    private Text GetHUDTextObjectByName(string name)
     {
        
         foreach (Transform i in HUDChilds)
@@ -58,16 +71,69 @@ public class HUDsc : MonoBehaviour {
         
         return null;
     }
-    public void UpdateHUD(string name, int resourceAmount)
+    private Image GetHUDImageObjectByName(string name)
     {
-        Object_name = name;
-        if(resourceAmount != -1)
+
+        foreach (Transform i in HUDChilds)
         {
-            Object_Resources = resourceAmount.ToString();
+
+            if (i.GetComponent<Image>())
+            {
+
+                if (i.GetComponent<Image>().name == name)
+                {
+
+                    return i.GetComponent<Image>();
+                }
+            }
         }
-        if(resourceAmount == -1)
+
+        return null;
+    }
+    private Button GetHUDButtonObjectByName(string name)
+    {
+
+        foreach (Transform i in HUDChilds)
         {
+
+            if (i.GetComponent<Button>())
+            {
+
+                if (i.GetComponent<Button>().name == name)
+                {
+
+                    return i.GetComponent<Button>();
+                }
+            }
+        }
+
+        return null;
+    }
+    public void UpdateHUD(GameObject selectedObject)
+    {
+        if (selectedObject.name == "Ground")
+        {
+            Object_name = "";
+            isSelected = false;
+            isBuilding = false;
             Object_Resources = "";
+        }
+        if (selectedObject.name != "Ground")
+        {
+            Object_name = selectedObject.name;
+            isSelected = true;
+            if (selectedObject.GetComponent<Actor>())
+            {
+                Object_Resources = selectedObject.GetComponent<Actor>().Resource.ToString();
+            }
+            if (selectedObject.GetComponent<Building>())
+            {
+                isBuilding = true;
+            }
+            else
+            {
+                isBuilding = false;
+            }
         }
     }
 }

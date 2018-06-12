@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum ToWho
 {
@@ -99,9 +100,16 @@ public class UserInput : MonoBehaviour {
     // after mouse click select actor in line camera-cursor. Deselect previous actor if necessary
     private void SelectManager()
     {
-        DeselectPreviousActor();
-        Selected = GetActorHit();
-        SelectActor();
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Clicked on the UI");
+        }
+        else
+        {
+            DeselectPreviousActor();
+            Selected = GetActorHit();
+            SelectActor();
+        }
      
     }
     // manages mouse buttons events
@@ -127,11 +135,10 @@ public class UserInput : MonoBehaviour {
     }
     private void MoveToCursor()
     {
-        
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
-        { 
+        {
             GameObject hited = hit.transform.gameObject;
 
             if (Selected)
@@ -158,18 +165,20 @@ public class UserInput : MonoBehaviour {
 
                 }
             }
-       
+
         }
+        
     }
     // Return GameObject if ray hit a target in camera-cursor line
     private GameObject GetActorHit()
-    {
+    {    
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
         {
-           return hit.transform.gameObject;
+            return hit.transform.gameObject;
         }
+        
         return null;
     }
     // if actor was selected deselect him
@@ -200,32 +209,10 @@ public class UserInput : MonoBehaviour {
                     SomethingSelected = true;                  
                 }
             }
-            if(Selected.name == "Ground")
-            {
-                player.UpdateHUD("", -1);
-            }
         }
     }
     private void HudUpdate(string name)
     {
-       int resourceAmount = 0;
-       if(Selected.GetComponent<Unit>())
-       {
-            Unit unit = Selected.GetComponent<Unit>();
-            resourceAmount = unit.GetResource();
-            player.UpdateHUD(name, resourceAmount);
-        }
-        if (Selected.GetComponent<Resource>())
-        {
-            Resource resource = Selected.GetComponent<Resource>();
-            resourceAmount = resource.GetResource();
-            player.UpdateHUD(name, resourceAmount);
-        }
-        if (Selected.GetComponent<Building>())
-        {
-            Building building = Selected.GetComponent<Building>();
-            resourceAmount = building.GetResource();
-            player.UpdateHUD(name, resourceAmount);
-        }
+        player.UpdateHUD(Selected);
     }
 }

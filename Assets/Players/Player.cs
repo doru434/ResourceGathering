@@ -23,9 +23,9 @@ public class Player : MonoBehaviour
 	void Update () {
        
     }
-    public void UpdateHUD(string name, int resourceAmount)
+    public void UpdateHUD(GameObject selected)
     {
-        hUDsc.UpdateHUD( name, resourceAmount);
+        hUDsc.UpdateHUD(selected);
     }
     private void InitializeAllResources()
     {

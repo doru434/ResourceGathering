@@ -11,6 +11,7 @@ TagManager:
   - TreeDestroy
   - Trunk
   - Light
+  - Tree
   layers:
   - Default
   - TransparentFX

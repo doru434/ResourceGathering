@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : Actor {
-    private int ResourceAmount;
+    //private int ResourceAmount;
     private int MuleCost;
     public Transform newMule;
     private Vector3 spawnPoint;

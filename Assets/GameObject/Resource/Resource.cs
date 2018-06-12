@@ -6,12 +6,13 @@ public class Resource : Actor
 {
     enum GatheringSlots { FirstFree=0, SecondFree, FirstSame, SecondSame, Occupied}
     enum ResourceLeft { Pass = 0, Less, ToMany }
-    public int ResourceAmount;
+    //public int ResourceAmount;
     private int[] gatherers = new int[2];
     private bool destroyed = false;
     // Use this for initialization
     protected override void Start() {
         base.Start();
+        ResourceAmount = 12;
         gatherers[0] = 0;
         gatherers[1] = 0;
     }
@@ -90,7 +91,7 @@ public class Resource : Actor
         }
     }
     /// <summary>
-    /// Depending on the slots status choose to gather or find next source.
+    /// Depending on the slots status chose to gather or find next source.
     /// </summary>
     private void GatherOrNot(int status, int tempID, Unit eager)
     {
