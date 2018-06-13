@@ -83,7 +83,7 @@ public class Resource : Actor
     {
         if (eager.IsFull() && this.transform.gameObject.GetInstanceID() == eager.GetGatheringSourceID())
         {
-            eager.SetGathering(false);
+            eager.SetGathering(false);          
             FreeGatheringSlot(eager);
             eager.RememberResourcePosition(this.transform.position);
             eager.ChangeStateOfRigidBody(true);
@@ -134,7 +134,8 @@ public class Resource : Actor
     /// </summary>
     private void Gather(Unit eager)
     {
-        eager.SetGathering(true);      
+
+        eager.SetGathering(true);       
         eager.SetIsWaiting(false);
 
         eager.DrawDebugLine(transform.position);
@@ -147,6 +148,7 @@ public class Resource : Actor
 
         if (ResourceAmount - gatherAmount >= 0 && eager.EnoughtSpace())
         {
+
             eager.StopMoving();
             eager.lastGather += Time.deltaTime;
             if (eager.lastGather >= eager.GetGatheringSpeed())

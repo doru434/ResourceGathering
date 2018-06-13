@@ -10,7 +10,7 @@ public class Unit : Actor {
     public float lastGather;
     public int maxResource;
 
-
+    private int resourceid;
     private GameObject mainBase;
     private Player myPlayer;
     private CollisionDetection collisionDetection;
@@ -19,7 +19,7 @@ public class Unit : Actor {
     private Vector3 resourcePosition;
     private Vector3 desiredPosition;
 
-    private float rotateSpeed = 5;
+    private float rotateSpeed = 500;
     private float gatheringSpeed;
     private int gatheringAmount;
    // private int ResourceAmount;
@@ -54,7 +54,7 @@ public class Unit : Actor {
         {
             wantToGather = false;
         }
-        
+
         TurnOnCollision();
 
         CatchGatheringExceptions();
@@ -75,6 +75,7 @@ public class Unit : Actor {
 
         GameObject Player = GameObject.FindGameObjectWithTag("Player");
         myPlayer = Player.transform.GetComponent<Player>();
+
 
         lastGather = 0.0f;
         gatheringSpeed = 2.0f;
@@ -284,19 +285,20 @@ public class Unit : Actor {
     /// <summary>
     /// Menages unit movement depending on destination objective.
     /// </summary>
-    public void MoveManager(Vector3 destination, ToWho where, int resourceID)
+    public void MoveManager(Transform destination, ToWho where, int resourceID)
     {
 
         if (where==ToWho.Resource )
         {
             gatheringSourceID = resourceID;
             wantToGather = true;
-            MoveObject(destination);
+ 
+            MoveObject(destination.position);
             ChangeLayerToGathering();   
         }
         if (where==ToWho.FreeGround)
         {
-            MoveObject(destination);
+            MoveObject(destination.position);
             wantToGather = false;
             gathering = false;
             goingBackToBase = false;
@@ -313,7 +315,7 @@ public class Unit : Actor {
         }
         if(where==ToWho.Building)
         {
-            MoveObject(destination);
+            MoveObject(destination.position);
             goingBackToBase = true;
             ChangeLayerToGathering();
         }
@@ -353,15 +355,15 @@ public class Unit : Actor {
         Vector3 newDir = Vector3.RotateTowards(this.transform.forward, this.transform.position-desiredPosition, Time.deltaTime * rotateSpeed, 0.0f);
 
         newDir.y = 0;
-        // Move our position a step closer to the target.
+
         transform.rotation = Quaternion.LookRotation(newDir);
     }
-
     /// <summary>
     /// Stoping gathering and sending unit to base.
     /// </summary>
     public void ReturnResources()
     {
+        
         wantToGather = false;
         goingBackToBase = true;
         MoveObject(basePosition);
@@ -399,9 +401,9 @@ public class Unit : Actor {
                 }                             
             }
         }
-        if(destinationResource!=null)
+        if (destinationResource!=null)
         {
-            MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
+            MoveManager(destinationResource.transform, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
         }
         if (destinationResource == null)
         {
@@ -413,7 +415,7 @@ public class Unit : Actor {
     /// </summary>
     private void Wait(int resourceID)
     {
-        MoveManager(this.transform.position, ToWho.Resource, resourceID);
+        MoveManager(this.transform, ToWho.Resource, resourceID);
         isWaiting = true;       
     }
     /// <summary>

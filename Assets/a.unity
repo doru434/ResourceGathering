@@ -1350,6 +1350,11 @@ Prefab:
       propertyPath: m_Name
       value: Mule (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 195033945846072864, guid: 23b53df4fb661b34285fb67fcfca0957,
+        type: 2}
+      propertyPath: m_AngularSpeed
+      value: 220
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 23b53df4fb661b34285fb67fcfca0957, type: 2}
   m_IsPrefabParent: 0
