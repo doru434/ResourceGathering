@@ -7,10 +7,11 @@ public class Building : Actor {
     private int MuleCost;
     public Transform newMule;
     private Vector3 spawnPoint;
+    private Player player;
     // Use this for initialization
     protected override void Start () {
         base.Start();
-        ResourceAmount = 0;
+        player = FindObjectOfType<Player>();
         MuleCost = 20;
         spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
     }
@@ -29,9 +30,7 @@ public class Building : Actor {
                 Instantiate(newMule, spawnPoint, Quaternion.identity);
                 ResourceAmount -= MuleCost;
                 spawnPoint = new Vector3(transform.position.x-4, transform.position.y + 2.5f, transform.position.z - 6);
-            }
-            
-           
+            }                    
         }
 
 	}
@@ -41,14 +40,25 @@ public class Building : Actor {
         {
             Unit unit = other.transform.GetComponent<Unit>();
             if(unit.GetGoingBackToBase())
-            { 
-                ResourceAmount+=unit.GetResource();
+            {
+                FindObjectOfType<Player>().AddResource(unit.GetResource());
                 unit.TransferResources();
             }
         }
     }
-    public int GetResource()
+    public bool CreateMule()
     {
-        return ResourceAmount;
+        if(player.AbleToPay(MuleCost))
+        {
+            while (Physics.CheckBox(spawnPoint, new Vector3(1.0f, 1.0f, 0.5f)))
+            {
+                spawnPoint.x += 2.0f;
+            }
+            Instantiate(newMule, spawnPoint, Quaternion.identity);
+            player.DecreseResourceCount(MuleCost); 
+            spawnPoint = new Vector3(transform.position.x - 4, transform.position.y + 2.5f, transform.position.z - 6);          
+            return true;
+        }
+        return false;
     }
 }

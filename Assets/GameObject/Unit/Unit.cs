@@ -285,7 +285,7 @@ public class Unit : Actor {
     /// <summary>
     /// Menages unit movement depending on destination objective.
     /// </summary>
-    public void MoveManager(Transform destination, ToWho where, int resourceID)
+    public void MoveManager(Vector3 destination, ToWho where, int resourceID)
     {
 
         if (where==ToWho.Resource )
@@ -293,12 +293,12 @@ public class Unit : Actor {
             gatheringSourceID = resourceID;
             wantToGather = true;
  
-            MoveObject(destination.position);
+            MoveObject(destination);
             ChangeLayerToGathering();   
         }
         if (where==ToWho.FreeGround)
         {
-            MoveObject(destination.position);
+            MoveObject(destination);
             wantToGather = false;
             gathering = false;
             goingBackToBase = false;
@@ -315,7 +315,7 @@ public class Unit : Actor {
         }
         if(where==ToWho.Building)
         {
-            MoveObject(destination.position);
+            MoveObject(destination);
             goingBackToBase = true;
             ChangeLayerToGathering();
         }
@@ -403,7 +403,7 @@ public class Unit : Actor {
         }
         if (destinationResource!=null)
         {
-            MoveManager(destinationResource.transform, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
+            MoveManager(destinationResource.transform.position, ToWho.Resource, destinationResource.gameObject.GetInstanceID());
         }
         if (destinationResource == null)
         {
@@ -415,7 +415,7 @@ public class Unit : Actor {
     /// </summary>
     private void Wait(int resourceID)
     {
-        MoveManager(this.transform, ToWho.Resource, resourceID);
+        MoveManager(this.transform.position, ToWho.Resource, resourceID);
         isWaiting = true;       
     }
     /// <summary>

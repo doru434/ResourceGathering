@@ -5,14 +5,23 @@ using UnityEngine.UI;
 
 public class HUDsc : MonoBehaviour {
     private Transform[] HUDChilds;
+    private Button muleButton;
+    private Building mainBase;
+    private Player player;
+    private int MuleCost;
     private string Object_name;
     private string Object_Resources;
+    private string Player_Resources;
     private bool isSelected = false;
     private bool isBuilding = false;
     // Use this for initialization
     void Start () {
         isSelected = false;
         SetChilds();
+        muleButton = GetHUDButtonObjectByName("GathererButton");
+        mainBase= FindObjectOfType<Building>();
+
+        muleButton.onClick.AddListener(TaskOnClick);
     }
 	
 	// Update is called once per frame
@@ -26,17 +35,42 @@ public class HUDsc : MonoBehaviour {
         {
             Text tempObject_Resources = GetHUDTextObjectByName("Object_Resources");
             tempObject_Resources.text = Object_Resources;
+            if (isBuilding == true)
+            {
+                tempObject_Resources.text = "";
+            }
+        }
+        if (GetHUDTextObjectByName("Text_PlayerResources"))
+        {
+            Text tempObject_Resources = GetHUDTextObjectByName("Text_PlayerResources");
+            tempObject_Resources.text = Player_Resources;
         }
         if (GetHUDImageObjectByName("SelectedBar"))
         {
             Image tempObject_Resources = GetHUDImageObjectByName("SelectedBar");
             tempObject_Resources.gameObject.SetActive(isSelected);
+            if (isBuilding == true)
+            {
+                tempObject_Resources.GetComponentInChildren<Text>().text = "";
+            }
         }
         if (GetHUDButtonObjectByName("GathererButton"))
         {
             Button tempObject_Resources = GetHUDButtonObjectByName("GathererButton");
             tempObject_Resources.gameObject.SetActive(isBuilding);
         }
+    }
+    void TaskOnClick()
+    {
+       bool succes = mainBase.CreateMule();
+        if(succes==false)
+        {
+            Debug.Log("Spawning failed");
+        }
+    }
+    public void SetStartingResources(int ResourceCount)
+    {
+        Player_Resources = ResourceCount.ToString();
     }
     public void SetChilds()
     {
@@ -129,11 +163,16 @@ public class HUDsc : MonoBehaviour {
             if (selectedObject.GetComponent<Building>())
             {
                 isBuilding = true;
+                
             }
             else
             {
                 isBuilding = false;
             }
         }
+    }
+    public void UpdatePlayerResources(int Resources)
+    {
+        Player_Resources = Resources.ToString();
     }
 }

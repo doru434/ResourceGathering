@@ -150,17 +150,17 @@ public class UserInput : MonoBehaviour {
                     //moving to free ground location
                     if (hited.name == "Ground")
                     {
-                        unit.MoveManager(hit.transform, ToWho.FreeGround, hited.gameObject.GetInstanceID());
+                        unit.MoveManager(hit.point, ToWho.FreeGround, hited.gameObject.GetInstanceID());
                     }
                     //moving to resource source location
                     if (hited.transform.GetComponent<Resource>())
                     {
-                        unit.MoveManager(hit.transform, ToWho.Resource, hited.gameObject.GetInstanceID());
+                        unit.MoveManager(hit.point, ToWho.Resource, hited.gameObject.GetInstanceID());
                     }
                     //moving to main base location
                     if (hited.transform.GetComponent<Building>())
                     {
-                        unit.MoveManager(hit.transform, ToWho.Building, hited.gameObject.GetInstanceID());
+                        unit.MoveManager(hit.point, ToWho.Building, hited.gameObject.GetInstanceID());
                     }
 
                 }

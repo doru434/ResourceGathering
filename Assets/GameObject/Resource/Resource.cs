@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Resource : Actor
 {
@@ -237,7 +238,12 @@ public class Resource : Actor
                 }
                 GameObject.Destroy(child.gameObject);               
             }
+            if(child.name== "Lower_trunk")
+            {
+                child.GetComponent<CapsuleCollider>().enabled = false;
+            }
         }
         GetComponent<BoxCollider>().enabled = false;
+        GetComponent<NavMeshObstacle>().enabled = false;
     }
 }
