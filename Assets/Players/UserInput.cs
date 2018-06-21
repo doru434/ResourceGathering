@@ -102,7 +102,7 @@ public class UserInput : MonoBehaviour {
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Clicked on the UI");
+
         }
         else
         {
@@ -163,6 +163,13 @@ public class UserInput : MonoBehaviour {
                         unit.MoveManager(hit.point, ToWho.Building, hited.gameObject.GetInstanceID());
                     }
 
+                }
+                if (Selected.GetComponent<Building>())
+                {
+                    if (hited.name == "Ground")
+                    {
+                        Selected.GetComponent<Building>().SetRallyingPoint(hit.point);
+                    }
                 }
             }
 

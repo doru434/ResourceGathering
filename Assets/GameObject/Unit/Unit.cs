@@ -25,7 +25,7 @@ public class Unit : Actor {
    // private int ResourceAmount;
     private int gatheringSourceID;
 
-    private bool move;
+    private bool move = false;
     private bool rotate;
     private bool wantToGather;
     private bool goingBackToBase;
@@ -39,7 +39,6 @@ public class Unit : Actor {
         base.Start();
         InitializeParameters();
     }
-
     // Update is called once per frame
     protected override void Update () {
         base.Update();
@@ -86,7 +85,7 @@ public class Unit : Actor {
         wantToGather = false;
         goingBackToBase = false;
         isSelected = false;
-        move = false;
+        //move = false;
         rotate = false;
         isWaiting = false;
         turnOnCollider = false;

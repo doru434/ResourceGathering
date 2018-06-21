@@ -39,6 +39,10 @@ public class HUDsc : MonoBehaviour {
             {
                 tempObject_Resources.text = "";
             }
+            if (isBuilding != true)
+            {
+                tempObject_Resources.text = Object_Resources;
+            }
         }
         if (GetHUDTextObjectByName("Text_PlayerResources"))
         {
@@ -52,6 +56,10 @@ public class HUDsc : MonoBehaviour {
             if (isBuilding == true)
             {
                 tempObject_Resources.GetComponentInChildren<Text>().text = "";
+            }
+            if (isBuilding == false)
+            {
+                tempObject_Resources.GetComponentInChildren<Text>().text = "Resources:";
             }
         }
         if (GetHUDButtonObjectByName("GathererButton"))
